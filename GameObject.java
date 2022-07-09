@@ -1,4 +1,8 @@
+import java.util.Arrays;
+import java.util.Objects;
+
 public class GameObject {
+    int id;
     GameComponent component;
     int horizontalCoordinate;
     int verticalCoordinate;
@@ -6,15 +10,17 @@ public class GameObject {
     int hitPoints = 10;
     int[] damageCoefficient = {0, 0, 0, 0}; //up, down, left, right
     boolean canMove = false;
+    int protection = 5;
+    public static int ObjectId = 0;
     public static final int MAXHEIGHT = 1080;
     public static final int MAXWIDTH = 1920;
-    int protection = 5;
 
     public GameObject(GameComponent component, int horizontalCoordinate,
                       int verticalCoordinate) {
         this.component = component;
         this.horizontalCoordinate = horizontalCoordinate;
         this.verticalCoordinate = verticalCoordinate;
+        id = ObjectId++;
     }
 
     public GameObject(GameComponent component, int horizontalCoordinate,
@@ -31,6 +37,7 @@ public class GameObject {
         this.damage = damage;
         this.hitPoints = hitPoints;
         this.canMove = canMove;
+        id = ObjectId++;
     }
 
     public void setHorizontalCoordinate(int horizontalCoordinate) {
@@ -114,5 +121,32 @@ public class GameObject {
     public void move(int horizontalDelta, int verticalDelta) {
         moveHorizontal(horizontalDelta);
         moveVertical(verticalDelta);
+    }
+
+    public boolean equals(GameObject other) {
+        return (id == other.id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameObject other = (GameObject) o;
+        return id == other.id &&
+                horizontalCoordinate == other.horizontalCoordinate &&
+                verticalCoordinate == other.verticalCoordinate &&
+                getDamage() == other.getDamage() &&
+                getHitPoints() == other.getHitPoints() &&
+                canMove == other.canMove && protection == other.protection &&
+                Arrays.equals(getDamageCoefficient(), other.getDamageCoefficient());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, horizontalCoordinate,
+                verticalCoordinate, getDamage(), getHitPoints(),
+                canMove, protection);
+        result = 31 * result + Arrays.hashCode(getDamageCoefficient());
+        return result;
     }
 }

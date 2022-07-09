@@ -33,7 +33,8 @@ public class Display {
         menu.setForeground(menuFontColor);
         menu.setBackground(background);
         menu.setOpaque(false);
-        DefaultListCellRenderer listCellRenderer = (DefaultListCellRenderer)menu.getCellRenderer();
+        DefaultListCellRenderer listCellRenderer = (DefaultListCellRenderer)
+                menu.getCellRenderer();
         listCellRenderer.setHorizontalAlignment(JLabel.CENTER);
 
         JLabel gameName = new JLabel("Circle Adventure");
