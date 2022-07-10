@@ -1,14 +1,22 @@
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class Level {
     String levelName;
-    List<GameComponent> gameObjects;
+    TreeMap<Integer, GameObject> gameObjects;
 
     public Level(String levelName) {
         this.levelName = levelName;
-        this.gameObjects = new LinkedList<>();
+        this.gameObjects = new TreeMap<>();
+    }
+
+    public void addGameObject(GameObject gameObject) {
+        Integer id = gameObject.getId();
+        if (!gameObjects.containsKey(id))
+            gameObjects.put(id, gameObject);
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
     }
 
     public String getLevelName() {
@@ -19,12 +27,16 @@ public class Level {
         return gameObjects.size();
     }
 
-    public GameComponent getGameObjects(int num) {
-        ListIterator<GameComponent> it = gameObjects.listIterator();
-        for (int i = 0; i < num; i++) {
-            it.next();
-        }
-        return it.next();
+    public GameObject getGameObjects(int id) {
+        return gameObjects.get(id);
+    }
 
+    public ArrayList<GameObject> getLevelsObjects() {
+        Iterator<GameObject> it = gameObjects.values().iterator();
+        ArrayList<GameObject> arrayList = new ArrayList<>();
+        while (it.hasNext())
+            arrayList.add(it.next());
+        return arrayList;
     }
 }
+

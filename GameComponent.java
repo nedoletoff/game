@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.Objects;
 
 public class GameComponent {
     public static int num;
@@ -41,6 +42,35 @@ public class GameComponent {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameComponent that = (GameComponent) o;
+        return getHorizontalSize() == that.getHorizontalSize() &&
+                getVerticalSize() == that.getVerticalSize() &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(imageLocation, that.imageLocation) &&
+                Objects.equals(getPng(), that.getPng());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getHorizontalSize(), getVerticalSize(),
+                getName(), imageLocation, getPng());
+    }
+
+    @Override
+    public String toString() {
+        return "GameComponent{" +
+                "horizontalSize=" + horizontalSize +
+                ", verticalSize=" + verticalSize +
+                ", name='" + name + '\'' +
+                ", imageLocation='" + imageLocation + '\'' +
+                ", png=" + png +
+                '}';
     }
 }
 

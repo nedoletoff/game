@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class GameObject {
-    int id;
+    final int id;
     GameComponent component;
     int horizontalCoordinate;
     int verticalCoordinate;
@@ -83,6 +83,10 @@ public class GameObject {
         return damageCoefficient;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public int[] getHitBox() {
         int[] hitBox = new int[4];
         hitBox[0] = horizontalCoordinate;
@@ -148,5 +152,20 @@ public class GameObject {
                 canMove, protection);
         result = 31 * result + Arrays.hashCode(getDamageCoefficient());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "GameObject{" +
+                "id=" + id +
+                ", component=" + component +
+                ", horizontalCoordinate=" + horizontalCoordinate +
+                ", verticalCoordinate=" + verticalCoordinate +
+                ", damage=" + damage +
+                ", hitPoints=" + hitPoints +
+                ", damageCoefficient=" + Arrays.toString(damageCoefficient) +
+                ", canMove=" + canMove +
+                ", protection=" + protection +
+                '}';
     }
 }
