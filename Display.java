@@ -5,20 +5,24 @@ import java.util.Arrays;
 import java.util.Locale;
 
 public class Display {
+    JFrame frame = new JFrame("Circle Adventure");
     public static final int HEIGHT = 1080;
     public static final int WIDTH = 1920;
+    public static Font menuFont = new Font("Comic Sans MS", Font.PLAIN, 45);
+    public static Color menuFontColor = new Color(255, 255, 51);
+    public static Color background = new Color(20, 150, 180);
+    public static Font nameFont = new Font("Trebuchet MS", Font.PLAIN, 82);
+    public static Color nameFontColor = new Color(255, 255, 0);
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Circle Adventure");
+        Display display = new Display();
+        //Display.start();
+    }
+
+    public Display() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(false);
 
-        Font menuFont = new Font("Comic Sans MS", Font.PLAIN, 45);
-        Color menuFontColor = new Color(255, 255, 51);
-        Color background = new Color(20, 150, 180);
-
-        Font nameFont = new Font("Trebuchet MS", Font.PLAIN, 82);
-        Color nameFontColor = new Color(255, 255, 0);
 
         DefaultListModel<String> l = new DefaultListModel<>();
         l.addElement("Start");

@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class GameObject {
+public class GameObject implements Serializable {
     final int id;
     GameComponent component;
     int horizontalCoordinate;

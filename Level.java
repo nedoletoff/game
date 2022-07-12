@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class Level {
+public class Level implements Serializable {
     String levelName;
     TreeMap<Integer, GameObject> gameObjects;
 
