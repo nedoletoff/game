@@ -3,7 +3,14 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class GameObject implements Serializable {
+    public static final int UP = 0;
+    public static final  int DOWN = 1;
+    public static final int LEFT = 2;
+    public static final int RIGHT = 3;
+    public static int HEIGHT = 1080;
+    public static int WIDTH = 1920;
     final int id;
+    final int speed = 5;
     GameComponent component;
     int horizontalCoordinate;
     int verticalCoordinate;
@@ -11,11 +18,15 @@ public class GameObject implements Serializable {
     int hitPoints = 10;
     int[] damageCoefficient = {0, 0, 0, 0}; //up, down, left, right
     boolean canMove = false;
-    int protection = 5;
+    int protection = 6;
     public static int ObjectId = 0;
-    public static final int MAXHEIGHT = 1080;
-    public static final int MAXWIDTH = 1920;
 
+
+    public static void setFrame(int width, int height) {
+        WIDTH = width;
+        HEIGHT = height;
+        Coordinates.setFrame(width, height);
+    }
     public GameObject(GameComponent component, int horizontalCoordinate,
                       int verticalCoordinate) {
         this.component = component;
@@ -90,42 +101,136 @@ public class GameObject implements Serializable {
 
     public int[] getHitBox() {
         int[] hitBox = new int[4];
-        hitBox[0] = horizontalCoordinate;
-        hitBox[1] = verticalCoordinate;
-        hitBox[2] = horizontalCoordinate + component.getHorizontalSize();
-        hitBox[3] = verticalCoordinate + component.getVerticalSize();
+        hitBox[LEFT] = horizontalCoordinate;
+        hitBox[UP] = verticalCoordinate;
+        hitBox[RIGHT] = horizontalCoordinate + component.getHorizontalSize();
+
         return hitBox;
     }
 
+    public Coordinates getCoordinates() {
+        return new Coordinates(horizontalCoordinate, verticalCoordinate);
+    }
+
+    public Coordinates whereIsCenter() {
+        return new Coordinates(horizontalCoordinate + component.getHorizontalSize() / 2,
+                verticalCoordinate + component.getVerticalSize() / 2);
+    }
+
+    public boolean isInHitBox(int x, int y) {
+        int[] hitBox = getHitBox();
+        return  (x >= hitBox[LEFT] && y >= hitBox[UP] &&
+                x <= hitBox[RIGHT] && y <= hitBox[DOWN]);
+    }
+
+    public boolean isInHitBox(GameObject other) {
+        Coordinates center = this.whereIsCenter();
+        Coordinates otherCenter = other.whereIsCenter();
+
+        boolean xIntersection =  (Math.abs(center.x - otherCenter.x) <
+                this.component.getHorizontalSize() + other.component.getHorizontalSize());
+        boolean yIntersection = (Math.abs(center.y - otherCenter.y) <
+                this.component.getVerticalSize() + other.component.getVerticalSize());
+
+        return  (xIntersection && yIntersection);
+    }
+
+    public int whereIsObject(GameObject other) {
+        Coordinates myCenter = whereIsCenter();
+        Coordinates otherCenter = other.whereIsCenter();
+        Coordinates delta = myCenter.minus(otherCenter);
+
+        if (delta.x > 0) {
+            if (delta.y > 0) {
+                if (delta.x > delta.y)
+                    return LEFT;
+                else
+                    return UP;
+            } else {
+                if (delta.x > -delta.y)
+                    return LEFT;
+                else
+                    return DOWN;
+            }
+        }
+        else {
+            if (delta.y > 0) {
+                if (-delta.x > delta.y)
+                    return RIGHT;
+                else
+                    return UP;
+            } else {
+                if (-delta.x > - delta.y)
+                    return RIGHT;
+                else
+                    return DOWN;
+            }
+        }
+    }
+
     public void hitOther(GameObject other, int side) {
-        if (other.protection < damage * damageCoefficient[side] || damage < 0) {
+        if (other.protection < damage * damageCoefficient[side] ||
+                damage * damageCoefficient[side] < 0) {
             other.hitPoints -= damage * damageCoefficient[side] + other.protection;
         }
     }
 
+    public void hit(GameObject other) {
+        hitOther(other, whereIsObject(other));
+        other.hitOther(this, other.whereIsObject(this));
+    }
+
     public void moveHorizontal(int horizontalDelta) {
-        if (canMove) {
-            horizontalCoordinate += horizontalDelta;
-            if (horizontalCoordinate > MAXWIDTH)
-                horizontalCoordinate = MAXWIDTH;
-            else if (horizontalCoordinate < 0)
-                horizontalCoordinate = 0;
-        }
+        horizontalCoordinate += horizontalDelta;
+        if (horizontalCoordinate > WIDTH)
+            horizontalCoordinate = WIDTH;
+        else if (horizontalCoordinate < 0)
+            horizontalCoordinate = 0;
     }
 
     public void moveVertical(int verticalDelta) {
-        if (canMove) {
-            verticalCoordinate += verticalDelta;
-            if (verticalCoordinate > MAXHEIGHT)
-                verticalCoordinate = MAXHEIGHT;
-            else if (verticalCoordinate < 0)
-                verticalCoordinate = 0;
-        }
+        verticalCoordinate += verticalDelta;
+        if (verticalCoordinate > HEIGHT)
+            verticalCoordinate = HEIGHT;
+        else if (verticalCoordinate < 0)
+            verticalCoordinate = 0;
     }
 
     public void move(int horizontalDelta, int verticalDelta) {
-        moveHorizontal(horizontalDelta);
-        moveVertical(verticalDelta);
+        if (canMove) {
+            moveHorizontal(horizontalDelta);
+            moveVertical(verticalDelta);
+        }
+    }
+
+    public void moveOut(GameObject other) {
+        while (isInHitBox(other)) {
+            if (whereIsObject(other) == RIGHT)
+                moveHorizontal(-1);
+            if (whereIsObject(other) == LEFT)
+                moveHorizontal(1);
+            if (whereIsObject(other)  == UP)
+                moveVertical(1);
+            if (whereIsObject(other) == DOWN)
+                moveVertical(-1);
+        }
+
+    }
+
+    public boolean isOnObject(GameObject other) {
+        return  (whereIsObject(other) == DOWN && isInHitBox(other));
+    }
+
+    public void update(Level level) {
+        for (GameObject gameObject : level.getLevelsObjects()) {
+            if (this.equals(gameObject))
+                continue;
+            if (isInHitBox(gameObject)) {
+                moveOut(gameObject);
+            }
+        }
+        if (hitPoints <= 0)
+            level.gameObjects.remove(id);
     }
 
     public boolean equals(GameObject other) {
