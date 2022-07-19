@@ -1,5 +1,4 @@
-import javax.swing.*;
-import java.io.Serializable;
+import java.io.*;
 import java.util.Objects;
 
 public class GameComponent implements Serializable {
@@ -7,15 +6,15 @@ public class GameComponent implements Serializable {
     int horizontalSize;
     int verticalSize;
     String name;
-    String imageLocation;
+    String imageName;
     //ImageIcon png;
 
 
-    public GameComponent(String name, String imageLocation,
+    public GameComponent(String name, String imageName,
                          int horizontalSize, int verticalSize) {
         num++;
         this.name = name;
-        this.imageLocation = imageLocation;
+        this.imageName = "images\\" + imageName;
         //this.png = new ImageIcon(imageLocation);
         this.horizontalSize = horizontalSize;
         this.verticalSize = verticalSize;
@@ -24,10 +23,34 @@ public class GameComponent implements Serializable {
     public GameComponent(GameComponent other){
         num++;
         this.name = other.name;
-        this.imageLocation = other.imageLocation;
+        this.imageName = other.imageName;
         //this.png = new ImageIcon(imageLocation);
         this.horizontalSize = other.horizontalSize;
         this.verticalSize = other.verticalSize;
+    }
+
+    public GameComponent(String name) {
+        name = "components\\" + name + ".cmp";
+        try (ObjectInputStream ois = new ObjectInputStream(new
+                FileInputStream(name))) {
+            GameComponent g = new GameComponent((GameComponent) ois.readObject());
+            this.name = g.name;
+            this.imageName = g.imageName;
+            this.horizontalSize = g.horizontalSize;
+            this.verticalSize = g.verticalSize;
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void save() {
+        name = "components\\" + name + ".cmp";
+        try (ObjectOutputStream oos = new ObjectOutputStream(new
+                FileOutputStream(name))) {
+            oos.writeObject(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
    // public ImageIcon getPng() {
@@ -46,8 +69,8 @@ public class GameComponent implements Serializable {
         return name;
     }
 
-    public String getImageLocation() {
-        return imageLocation;
+    public String getImageName() {
+        return imageName;
     }
 
     @Override
@@ -58,14 +81,14 @@ public class GameComponent implements Serializable {
         return getHorizontalSize() == that.getHorizontalSize() &&
                 getVerticalSize() == that.getVerticalSize() &&
                 Objects.equals(getName(), that.getName()) &&
-                Objects.equals(getImageLocation(), that.getImageLocation());
+                Objects.equals(getImageName(), that.getImageName());
                 //Objects.equals(getPng(), that.getPng());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getHorizontalSize(), getVerticalSize(),
-                getName(), getImageLocation());
+                getName(), getImageName());
     }
 
     @Override
@@ -74,7 +97,7 @@ public class GameComponent implements Serializable {
                 "horizontalSize=" + horizontalSize +
                 ", verticalSize=" + verticalSize +
                 ", name='" + name + '\'' +
-                ", imageLocation='" + imageLocation + '\'' +
+                ", imageLocation='" + imageName + '\'' +
                 '}';
     }
 }

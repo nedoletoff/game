@@ -20,7 +20,7 @@ public class SavedLevel implements Serializable {
     }
 
     public static SavedLevel load(String levelName) {
-        levelName += ".lvl";
+        levelName = "levels\\" + levelName + ".lvl";
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(levelName))) {
             return (SavedLevel) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
@@ -28,7 +28,7 @@ public class SavedLevel implements Serializable {
         }
     }
     public void save(String levelName) {
-        levelName += ".lvl";
+        levelName = "levels\\" + levelName + ".lvl";
         try(ObjectOutputStream oos = new ObjectOutputStream(new
                 FileOutputStream(levelName))) {
             oos.writeObject(this);

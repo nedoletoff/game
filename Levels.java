@@ -24,6 +24,13 @@ public class Levels {
         return filesName;
     }
 
+    public int getScores(String levelName) {
+        return SavedLevel.load(levelName).bestPoints;
+    }
+    public int getTimer(String levelName) {
+        return SavedLevel.load(levelName).bestTime;
+    }
+
     public ArrayList<String> getLevelsNames() {
         ArrayList<String> res = new ArrayList<>();
         for (String name : filesName) {

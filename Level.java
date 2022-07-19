@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Level {
     String levelName;
-    int timer;
+    int timer = 9999;
     int points = 0;
     TreeMap<Integer, GameObject> gameObjects;
     public TreeSet<Integer> pressedKeys;
@@ -75,16 +75,14 @@ public class Level {
     }
 
     public void save(String filename) {
-        String path = "C:\\Users\\nedoletoff\\IdeaProjects\\game\\levels\\";
-        SavedLevel sl = SavedLevel.load(path + levelName);
+        SavedLevel sl = SavedLevel.load(levelName);
         sl.bestPoints = Math.max(sl.bestPoints, getPoints());
         sl.bestTime = Math.min(sl.bestTime, getTimer());
     }
 
     public void redactorSave() {
-        String path = "C:\\Users\\nedoletoff\\IdeaProjects\\game\\levels\\";
         SavedLevel sl = new SavedLevel(this);
-        sl.save(path + levelName);
+        sl.save(levelName);
     }
 
     @Override
