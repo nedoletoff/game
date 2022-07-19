@@ -1,23 +1,22 @@
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.awt.*;
 import java.awt.event.*;
-import java.util.Objects;
 
 public class MenuPanel extends JPanel implements ActionListener {
-    Menu menu = new Menu();
+    MainMenu mainMenu = new MainMenu();
+    Window mainListener;
 
-    public MenuPanel(Frame frame) {
+    public MenuPanel(Window window) {
+        mainListener = window;
         MenuPanel menuPanel = this;
-        JLabel jLabel = new JLabel(menu.getBack());
-        frame.add(jLabel);
-        jLabel.add(menu.getMenu());
-        jLabel.add(menu.getGameName());
+        JLabel jLabel = new JLabel(mainMenu.getBack());
+        this.add(jLabel);
+        window.frame.getContentPane().add(this);
+        jLabel.add(mainMenu.getMenu());
+        jLabel.add(mainMenu.getGameName());
         final int[] selected = new int[1];
-        menu.getMenu().addListSelectionListener(e -> selected[0] = ((JList<?>)e.getSource()).
+        mainMenu.getMenu().addListSelectionListener(e -> selected[0] = ((JList<?>) e.getSource()).
                 getSelectedIndex());
-        menu.getMenu().addKeyListener(new KeyAdapter() {
+        mainMenu.getMenu().addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     System.out.println("Pressed " + selected[0]);
@@ -27,7 +26,7 @@ public class MenuPanel extends JPanel implements ActionListener {
             }
         });
 
-        menu.getMenu().addMouseListener(new MouseAdapter() {
+        mainMenu.getMenu().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     System.out.println("Pressed " + selected[0]);
@@ -37,10 +36,26 @@ public class MenuPanel extends JPanel implements ActionListener {
             }
         });
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (Objects.equals(e.getActionCommand(), "Enter 3"))
-            System.exit(0);
+        switch (e.getActionCommand()) {
+            case ("Enter 3"): {
+                System.exit(0);
+            }
+            case ("Enter 2"): {
+                mainListener.actionPerformed(new ActionEvent(e.getSource(),
+                        e.getID(), "Go to level redactor"));
+            }
+            case ("Enter 1"): {
+                mainListener.actionPerformed(new ActionEvent(e.getSource(),
+                        e.getID(), "Go to level menu"));
+            }
+            case ("Enter 0"): {
+                mainListener.actionPerformed(new ActionEvent(e.getSource(),
+                        e.getID(), "Go to level 0"));
 
+            }
+        }
     }
 }

@@ -1,22 +1,21 @@
 import javax.swing.*;
-import java.awt.*;
 
-public class Menu{
+public class LevelMenu {
     JList<String> menu;
     ImageIcon back;
     JLabel gameName;
 
-    public Menu() {
+    public LevelMenu() {
         DefaultListModel<String> menuList = new DefaultListModel<>();
-        menuList.addElement("Start");
-        menuList.addElement("Choose Level");
-        menuList.addElement("Level Editor");
-        menuList.addElement("Exit");
+        menuList.addElement("Level 1");
+        menuList.addElement("Level 2");
+        menuList.addElement("Level 3");
+        menuList.addElement("Back");
 
         menu = new JList<>(menuList);
-        menu.setBounds(Window.WIDTH / 2 - 200,Window. HEIGHT / 2 - 150,
-                400, 400);
-        menu.setName("Menu");
+        menu.setBounds(Window.WIDTH / 2 - 600,Window. HEIGHT / 2 - 150,
+                600, 400);
+        menu.setName("LevelMenu");
         menu.setFont(Window.menuFont);
         menu.setForeground(Window.menuFontColor);
         menu.setBackground(Window.background);
@@ -24,16 +23,17 @@ public class Menu{
         DefaultListCellRenderer listCellRenderer = (DefaultListCellRenderer)
                 menu.getCellRenderer();
         listCellRenderer.setHorizontalAlignment(JLabel.CENTER);
+        listCellRenderer.setOpaque(false);
 
         gameName = new JLabel("Circle Adventure");
         gameName.setName("gameName");
         gameName.setFont(Window.nameFont);
         gameName.setForeground(Window.nameFontColor);
         gameName.setHorizontalAlignment(JLabel.CENTER);
-        gameName.setBounds(Window.WIDTH / 2 - 400,Window.HEIGHT / 2 - 400,
+        gameName.setBounds(Window.WIDTH / 2 - 400,Window.HEIGHT / 2 - 450,
                 800, 200);
 
-        back = new ImageIcon("images/menu_image.jpg");
+        back = new ImageIcon("images/game_image.jpg");
     }
 
     public ImageIcon getBack() {
