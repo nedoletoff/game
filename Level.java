@@ -86,5 +86,16 @@ public class Level {
         SavedLevel sl = new SavedLevel(this);
         sl.save(path + levelName);
     }
+
+    @Override
+    public String toString() {
+        return "Level{" +
+                "levelName='" + levelName + '\'' +
+                ", timer=" + timer +
+                ", points=" + points +
+                ", gameObjects=" + gameObjects +
+                ", pressedKeys=" + pressedKeys +
+                '}';
+    }
 }
 

@@ -33,4 +33,14 @@ public class SavedLevel implements Serializable {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public String toString() {
+        return "SavedLevel{" +
+                "bestTime=" + bestTime +
+                ", bestPoints=" + bestPoints +
+                ", gameObjects=" + gameObjects +
+                ", levelName='" + levelName + '\'' +
+                '}';
+    }
 }

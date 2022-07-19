@@ -13,7 +13,6 @@ public class Platformer {
     }
 
     public void movePlayer(int x, int y) {
-        if ()
         player.move(x, y);
     }
 
