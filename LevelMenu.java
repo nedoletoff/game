@@ -6,23 +6,22 @@ public class LevelMenu {
     JLabel gameName;
 
     public LevelMenu() {
+        Levels levels = new Levels("levels");
         DefaultListModel<String> menuList = new DefaultListModel<>();
-        menuList.addElement("Level 1");
-        menuList.addElement("Level 2");
-        menuList.addElement("Level 3");
+        menuList.addAll(levels.getLevelsNames());
         menuList.addElement("Back");
 
         menu = new JList<>(menuList);
-        menu.setBounds(Window.WIDTH / 2 - 600,Window. HEIGHT / 2 - 150,
-                600, 400);
+        menu.setBounds(Window.WIDTH / 2 - 800,Window. HEIGHT / 2 - 250,
+                800, 400);
         menu.setName("LevelMenu");
         menu.setFont(Window.menuFont);
-        menu.setForeground(Window.menuFontColor);
+        menu.setForeground(Window.levelFontColor);
         menu.setBackground(Window.background);
         menu.setOpaque(false);
         DefaultListCellRenderer listCellRenderer = (DefaultListCellRenderer)
                 menu.getCellRenderer();
-        listCellRenderer.setHorizontalAlignment(JLabel.CENTER);
+        listCellRenderer.setHorizontalAlignment(JLabel.LEFT);
         listCellRenderer.setOpaque(false);
 
         gameName = new JLabel("Circle Adventure");

@@ -9,7 +9,7 @@ public class LevelPanel extends JPanel implements ActionListener {
 
     public LevelPanel(Window window) {
         mainListener = window;
-        LevelPanel menuPanel = this;
+        LevelPanel levelPanel = this;
         JLabel jLabel = new JLabel(menu.getBack());
         this.add(jLabel);
         window.frame.getContentPane().add(this);
@@ -23,10 +23,10 @@ public class LevelPanel extends JPanel implements ActionListener {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     System.out.println("Pressed " + selected[0]);
                     if (selected[0] == menu.getMenu().getModel().getSize() - 1)
-                        menuPanel.actionPerformed(new ActionEvent(e.getSource(),
+                        levelPanel.actionPerformed(new ActionEvent(e.getSource(),
                                 e.getID(), "Back"));
                     else
-                        menuPanel.actionPerformed(new ActionEvent(e.getSource(),
+                        levelPanel.actionPerformed(new ActionEvent(e.getSource(),
                             e.getID(), "" + selected[0]));
                 }
             }
@@ -37,10 +37,10 @@ public class LevelPanel extends JPanel implements ActionListener {
                 if (e.getClickCount() == 2) {
                     System.out.println("Pressed " + selected[0]);
                     if (selected[0] == menu.getMenu().getModel().getSize() - 1)
-                        menuPanel.actionPerformed(new ActionEvent(e.getSource(),
+                        levelPanel.actionPerformed(new ActionEvent(e.getSource(),
                                 e.getID(), "Back"));
                     else
-                        menuPanel.actionPerformed(new ActionEvent(e.getSource(),
+                        levelPanel.actionPerformed(new ActionEvent(e.getSource(),
                             e.getID(), "" + selected[0]));
                 }
             }
@@ -53,7 +53,7 @@ public class LevelPanel extends JPanel implements ActionListener {
                     e.getID(), "Back to main menu"));
         else
             mainListener.actionPerformed(new ActionEvent(e.getSource(),
-                    e.getID(), "Go to level " + e.getActionCommand()));
+                    e.getID(), "Go to level -" + e.getActionCommand()));
 
     }
 }
