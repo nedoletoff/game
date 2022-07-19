@@ -38,27 +38,31 @@ public class Window implements ActionListener {
     }
 
     private void goToMainMenu() {
-        // TODO find how change panels
         frame.getContentPane().removeAll();
+        frame.invalidate();
         new MenuPanel(this);
+        frame.revalidate();
+        System.out.println("To main");
     }
 
     private void goToLevelMenu() {
         frame.getContentPane().removeAll();
+        frame.invalidate();
         new LevelPanel(this);
+        frame.revalidate();
+        System.out.println("To level");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());
         switch (e.getActionCommand()) {
-            case ("Back to main menu") : {
+            case ("Back to main menu") -> {
                 goToMainMenu();
             }
-            case ("Go to level menu") : {
+            case ("Go to level menu") -> {
                 goToLevelMenu();
             }
-
         }
     }
 }

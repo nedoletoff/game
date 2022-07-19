@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.Objects;
 
 public class LevelPanel extends JPanel implements ActionListener {
-    LevelMenu menu = new LevelMenu();
+    static LevelMenu menu = new LevelMenu();
     Window mainListener;
 
     public LevelPanel(Window window) {

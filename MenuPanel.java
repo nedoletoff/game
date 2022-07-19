@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class MenuPanel extends JPanel implements ActionListener {
-    MainMenu mainMenu = new MainMenu();
+    static MainMenu mainMenu = new MainMenu();
     Window mainListener;
 
     public MenuPanel(Window window) {
@@ -40,18 +40,18 @@ public class MenuPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case ("Enter 3"): {
+            case ("Enter 3") -> {
                 System.exit(0);
             }
-            case ("Enter 2"): {
+            case ("Enter 2") -> {
                 mainListener.actionPerformed(new ActionEvent(e.getSource(),
                         e.getID(), "Go to level redactor"));
             }
-            case ("Enter 1"): {
+            case ("Enter 1") -> {
                 mainListener.actionPerformed(new ActionEvent(e.getSource(),
                         e.getID(), "Go to level menu"));
             }
-            case ("Enter 0"): {
+            case ("Enter 0") -> {
                 mainListener.actionPerformed(new ActionEvent(e.getSource(),
                         e.getID(), "Go to level 0"));
 
