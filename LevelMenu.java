@@ -5,6 +5,7 @@ public class LevelMenu {
     ImageIcon back;
     JLabel gameName;
     JButton backButton;
+    JButton newButton;
 
     public LevelMenu() {
         backButton = new JButton("Back");
@@ -13,6 +14,13 @@ public class LevelMenu {
         backButton.setForeground(Window.buttonFontColor);
         backButton.setBackground(Window.buttonBackground);
         backButton.setOpaque(false);
+
+        newButton = new JButton("New");
+        newButton.setBounds(10, 90, 180, 80);
+        newButton.setFont(Window.buttonFont);
+        newButton.setForeground(Window.buttonFontColor);
+        newButton.setBackground(Window.buttonBackground);
+        newButton.setOpaque(false);
 
         Levels levels = new Levels("levels");
         DefaultListModel<String> menuList = new DefaultListModel<>();
@@ -44,6 +52,9 @@ public class LevelMenu {
     }
     public JButton getBackButton() {
         return  backButton;
+    }
+    public JButton getNewButton() {
+        return newButton;
     }
 
     public ImageIcon getBack() {

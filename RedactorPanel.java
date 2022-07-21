@@ -70,6 +70,12 @@ public class RedactorPanel extends JPanel implements ActionListener {
         timer.start();
     }
 
+    public RedactorPanel(Window window, String levelName) {
+        this(window);
+        this.levelName = levelName;
+        level = Level.load(levelName);
+    }
+
     private void openChoseObject() {
         addObjectDialog.setVisible(true);
     }
@@ -203,12 +209,8 @@ public class RedactorPanel extends JPanel implements ActionListener {
                 if (tempId != -1)
                     openSetObject();
             }
-            case (15) -> {
-                openChoseObject();
-            }
-            case (20) -> {
-                save();
-            }
+            case (15) -> openChoseObject();
+            case (20) -> save();
             case (50) -> {
                 if (showed)
                     hideButtons();
@@ -242,12 +244,8 @@ public class RedactorPanel extends JPanel implements ActionListener {
                     deleteObject();
                 }
             }
-            case (350) -> {
-                tempX = Integer.parseInt(e.getActionCommand());
-            }
-            case (400) -> {
-                tempY = Integer.parseInt(e.getActionCommand());
-            }
+            case (350) -> tempX = Integer.parseInt(e.getActionCommand());
+            case (400) -> tempY = Integer.parseInt(e.getActionCommand());
             default -> {
                 System.out.println(e.getID());
                 System.out.println(e.getActionCommand());

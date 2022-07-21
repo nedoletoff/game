@@ -59,7 +59,15 @@ public class Window implements ActionListener {
         frame.invalidate();
         new LevelPanel(this);
         frame.revalidate();
-        System.out.println("To level");
+        System.out.println("To level menu");
+    }
+
+    private void goToLevelRedactorMenu() {
+        frame.getContentPane().removeAll();
+        frame.invalidate();
+        new LevelRedactorPanel(this);
+        frame.revalidate();
+        System.out.println("To level redactor menu");
     }
 
     private void goToRedactor() {
@@ -68,6 +76,14 @@ public class Window implements ActionListener {
         new RedactorPanel(this);
         frame.revalidate();
         System.out.println("To Redactor");
+    }
+
+    private void goToRedactor(String levelName) {
+        frame.getContentPane().removeAll();
+        frame.invalidate();
+        new RedactorPanel(this, levelName);
+        frame.revalidate();
+        System.out.println("To Redactor " + levelName);
     }
 
     @Override
@@ -83,7 +99,13 @@ public class Window implements ActionListener {
                 goToLevelMenu();
             }
             case ("Go to level redactor") -> {
-                goToRedactor();
+                goToLevelRedactorMenu();
+            }
+            default -> {
+                switch (e.getID()) {
+                    case (999) -> goToRedactor();
+                    case (888) -> goToRedactor(e.getActionCommand());
+                }
             }
             //case ("Go to level -")
         }
