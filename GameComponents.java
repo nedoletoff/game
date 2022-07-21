@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -37,7 +36,7 @@ public class GameComponents {
         throw new Error(name + " doesn't exist");
     }
 
-    public static ArrayList<GameComponent>  getComponents() {
+    public static ArrayList<GameComponent> getComponents() {
         return components;
     }
 }

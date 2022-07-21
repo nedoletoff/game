@@ -13,6 +13,7 @@ public class Enemy extends GameObject {
         canMove = true;
         hitPoints = 6;
         protection = 1;
+        canFall = true;
     }
 
     @Override
@@ -36,5 +37,10 @@ public class Enemy extends GameObject {
             else
                move(0, speed);
         }
+    }
+
+    @Override
+    public boolean isOnObject(GameObject other) {
+        return  (whereIsObject(other) == DOWN && isNearHitBox(other));
     }
 }

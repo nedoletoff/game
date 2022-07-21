@@ -1,19 +1,19 @@
 public class CreateComponents {
     public static void main(String[] args) {
-        GameComponent player = new GameComponent("player", "player.png",
-                150, 150);
+        GameComponent player = new GameComponent("player", "circle.png",
+                100, 100);
         GameComponent block = new GameComponent("block", "block2.png",
-                200, 200);
+                100, 100);
         GameComponent enemy = new GameComponent("enemy", "enemy.png",
-                150, 150);
+                100, 100);
         GameComponent coin = new GameComponent("coin", "coin.png",
                 50, 50);
         GameComponent spring = new GameComponent("spring", "spring.png",
-                200, 200);
+                100, 100);
         GameComponent spike = new GameComponent("spike", "spike.png",
-                200, 200);
+                100, 100);
         GameComponent portal = new GameComponent("portal", "portal.png",
-                150, 100);
+                100, 150);
         GameComponents.newComponent(player);
         GameComponents.newComponent(block);
         GameComponents.newComponent(enemy);

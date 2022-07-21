@@ -20,6 +20,7 @@ public class GameObject implements Serializable {
     boolean canMove = false;
     int protection = 6;
     public static int ObjectId = 0;
+    boolean canFall = false;
 
 
     public static void setFrame(int width, int height) {
@@ -30,8 +31,8 @@ public class GameObject implements Serializable {
     public GameObject(GameComponent component, int horizontalCoordinate,
                       int verticalCoordinate) {
         this.component = component;
-        this.horizontalCoordinate = horizontalCoordinate;
-        this.verticalCoordinate = verticalCoordinate;
+        this.horizontalCoordinate = horizontalCoordinate - horizontalCoordinate % 5;
+        this.verticalCoordinate = verticalCoordinate - verticalCoordinate % 5;
         id = ObjectId++;
     }
 
@@ -40,8 +41,8 @@ public class GameObject implements Serializable {
                       int[] coefficients, boolean canMove) throws Error {
 
         this.component = component;
-        this.horizontalCoordinate = horizontalCoordinate;
-        this.verticalCoordinate = verticalCoordinate;
+        this.horizontalCoordinate = horizontalCoordinate - horizontalCoordinate % 5;
+        this.verticalCoordinate = verticalCoordinate - verticalCoordinate % 5;
         if (coefficients.length > 4)
             throw new Error("wrong coefficients");
         System.arraycopy(coefficients, 0, this.damageCoefficient,
@@ -102,8 +103,9 @@ public class GameObject implements Serializable {
     public int[] getHitBox() {
         int[] hitBox = new int[4];
         hitBox[LEFT] = horizontalCoordinate;
-        hitBox[UP] = verticalCoordinate;
         hitBox[RIGHT] = horizontalCoordinate + component.getHorizontalSize();
+        hitBox[UP] = verticalCoordinate;
+        hitBox[DOWN] = verticalCoordinate + component.getVerticalSize();
 
         return hitBox;
     }
@@ -112,9 +114,21 @@ public class GameObject implements Serializable {
         return new Coordinates(horizontalCoordinate, verticalCoordinate);
     }
 
+    public GameComponent getComponent() {
+        return component;
+    }
+
+    public boolean isCanFall() {
+        return canFall;
+    }
+
     public Coordinates whereIsCenter() {
         return new Coordinates(horizontalCoordinate + component.getHorizontalSize() / 2,
                 verticalCoordinate + component.getVerticalSize() / 2);
+    }
+
+    public boolean isInHitBox(Coordinates coordinates) {
+        return isInHitBox(coordinates.x, coordinates.y);
     }
 
     public boolean isInHitBox(int x, int y) {
@@ -133,6 +147,18 @@ public class GameObject implements Serializable {
                 this.component.getVerticalSize() + other.component.getVerticalSize());
 
         return  (xIntersection && yIntersection);
+    }
+
+    public boolean isNearHitBox(GameObject other) {
+        Coordinates center = this.whereIsCenter();
+        Coordinates otherCenter = other.whereIsCenter();
+
+        boolean xIntersection =  (Math.abs(center.x - otherCenter.x) ==
+                this.component.getHorizontalSize() + other.component.getHorizontalSize());
+        boolean yIntersection = (Math.abs(center.y - otherCenter.y) ==
+                this.component.getVerticalSize() + other.component.getVerticalSize());
+
+        return  (xIntersection || yIntersection);
     }
 
     public int whereIsObject(GameObject other) {
@@ -186,6 +212,7 @@ public class GameObject implements Serializable {
             horizontalCoordinate = WIDTH;
         else if (horizontalCoordinate < 0)
             horizontalCoordinate = 0;
+        horizontalCoordinate -= horizontalCoordinate % 5;
     }
 
     public void moveVertical(int verticalDelta) {
@@ -194,6 +221,7 @@ public class GameObject implements Serializable {
             verticalCoordinate = HEIGHT;
         else if (verticalCoordinate < 0)
             verticalCoordinate = 0;
+        verticalCoordinate -= verticalCoordinate % 5;
     }
 
     public void move(int horizontalDelta, int verticalDelta) {
@@ -203,24 +231,37 @@ public class GameObject implements Serializable {
         }
     }
 
+    public void moveTo(int x, int y) {
+        if (x < 0)
+            x = 0;
+        else if (x > WIDTH)
+            x = WIDTH;
+        horizontalCoordinate = x - x % 5;
+
+        if (y < 0)
+            y = 0;
+        else if (y > HEIGHT)
+            y = HEIGHT;
+        verticalCoordinate = y - y % 5;
+    }
+
     public void moveOut(GameObject other) {
         while (isInHitBox(other)) {
             if (whereIsObject(other) == RIGHT)
-                moveHorizontal(-1);
+                moveHorizontal(-5);
             if (whereIsObject(other) == LEFT)
-                moveHorizontal(1);
+                moveHorizontal(5);
             if (whereIsObject(other)  == UP)
-                moveVertical(1);
+                moveVertical(5);
             if (whereIsObject(other) == DOWN)
-                moveVertical(-1);
+                moveVertical(-5);
         }
 
     }
 
     public boolean isOnObject(GameObject other) {
-        return  (whereIsObject(other) == DOWN && isInHitBox(other));
+        return true;
     }
-
     public void update(Level level) {
         for (GameObject gameObject : level.getLevelsObjects()) {
             if (this.equals(gameObject))
@@ -229,8 +270,19 @@ public class GameObject implements Serializable {
                 moveOut(gameObject);
             }
         }
-        if (hitPoints <= 0)
+        if (hitPoints <= 0) {
+            die();
             level.gameObjects.remove(id);
+        }
+    }
+
+    public void die() {
+
+    }
+
+    public void fall() {
+        if (verticalCoordinate + component.verticalSize <= HEIGHT)
+            move(0, 5);
     }
 
     public boolean equals(GameObject other) {

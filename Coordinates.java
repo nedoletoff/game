@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Objects;
 
 public class Coordinates {
@@ -5,6 +6,11 @@ public class Coordinates {
     static int HEIGHT = 1080;
     public int x;
     public int y;
+
+    public Coordinates(Point point) {
+        x = point.x;
+        y = point.y;
+    }
 
     public Coordinates(int x, int y) {
         this.x = x;

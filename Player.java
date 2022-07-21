@@ -13,6 +13,7 @@ public class Player extends GameObject {
         canMove = true;
         hitPoints = 4;
         protection = 0;
+        canFall = true;
     }
 
     @Override
@@ -48,5 +49,10 @@ public class Player extends GameObject {
             }
         }
         move(0, -jumpSpeed);
+    }
+    @Override
+    public boolean isOnObject(GameObject other) {
+        return  (whereIsObject(other) == DOWN && isNearHitBox(other)) ||
+                verticalCoordinate == HEIGHT;
     }
 }

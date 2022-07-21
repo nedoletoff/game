@@ -44,18 +44,14 @@ public class GameComponent implements Serializable {
     }
 
     public void save() {
-        name = "components\\" + name + ".cmp";
+        String fileName = "components\\" + name + ".cmp";
         try (ObjectOutputStream oos = new ObjectOutputStream(new
-                FileOutputStream(name))) {
+                FileOutputStream(fileName))) {
             oos.writeObject(this);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
-   // public ImageIcon getPng() {
-   //     return png;
-   // }
 
     public int getHorizontalSize() {
         return horizontalSize;
