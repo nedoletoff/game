@@ -3,7 +3,7 @@ import java.io.*;
 public class TestComponent {
     public static void main(String[] args) throws FileNotFoundException {
         GameComponent g = new GameComponent("Enemy",
-                "C:\\Users\\nedoletoff\\IdeaProjects\\game\\images\\enemy.png",
+                "images\\enemy.png",
                 100, 100);
         System.out.println(g);
 
