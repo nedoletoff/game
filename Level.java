@@ -1,5 +1,5 @@
-import java.io.Serializable;
 import java.util.*;
+import java.util.List;
 
 public class Level {
     String levelName;
@@ -7,6 +7,30 @@ public class Level {
     int points = 0;
     TreeMap<Integer, GameObject> gameObjects;
     public TreeSet<Integer> pressedKeys;
+    Surface surface = new Surface();
+    public static class Surface {
+        Map<Integer, List<Integer>> surface;
+
+        public Surface() {
+            surface = new TreeMap<>();
+        }
+
+        public void put(Integer x, Integer y) {
+            if (surface.get(x) == null) {
+                surface.get(x).add(y);
+                Collections.sort(surface.get(x));
+            } else surface.put(x, new ArrayList<>(y));
+        }
+
+        public int get(Integer x, int y) {
+            if (surface.get(x) != null) {
+                for (int i = 0; i < surface.get(x).size(); i++)
+                    if (y <= surface.get(x).get(i))
+                        return y;
+            }
+            return GameObject.HEIGHT;
+        }
+    }
 
     public Level(String levelName) {
         this.levelName = levelName;
@@ -22,6 +46,7 @@ public class Level {
 
     public void removeGameObject(Integer id) {
         gameObjects.remove(id);
+        System.out.println(id + "object removed" );
     }
 
     public void setLevelName(String levelName) {
@@ -46,6 +71,14 @@ public class Level {
         while (it.hasNext())
             arrayList.add(it.next());
         return arrayList;
+    }
+
+    public int getGameObjectId(Coordinates coordinates) throws RuntimeException{
+        for (GameObject gc : gameObjects.values()) {
+            if (gc.isInHitBox(coordinates))
+                return gc.getId();
+        }
+        throw new RuntimeException("There is no object");
     }
 
     public TreeMap<Integer, GameObject> getGameObjects() {
@@ -83,6 +116,66 @@ public class Level {
     public void redactorSave() {
         SavedLevel sl = new SavedLevel(this);
         sl.save(levelName);
+    }
+
+    public void generateSurface() {
+        for (GameObject gc : getLevelsObjects()) {
+            for (GameObject gc2 : getLevelsObjects()) {
+                if (gc.equals(gc2)) continue;
+
+                if (gc.isOnObject(gc2)) {
+                    for (int i = gc.getHitBox()[GameObject.LEFT]; i <=
+                            gc.getHitBox()[GameObject.RIGHT]; i+=5)
+                        surface.put(i, gc.getHitBox()[GameObject.UP]);
+                    break;
+                }
+            }
+        }
+    }
+
+    public boolean onSurface(GameObject gameObject) {
+        if (!gameObject.isCanFall())
+            return true;
+        int down = gameObject.getHitBox()[GameObject.DOWN];
+        for (int i = gameObject.getHitBox()[GameObject.LEFT]; i <=
+                gameObject.getHitBox()[GameObject.RIGHT]; i+= 5)
+            if (surface.get(i, down ) == down)
+                return true;
+        return false;
+    }
+    public void fixLevel() {
+        boolean playerCheck = false;
+        boolean portalCheck = false;
+        boolean blockCheck = false;
+
+        for (GameObject gc : getLevelsObjects()) {
+            if (Objects.equals(gc.getComponent().getName(), "player")) {
+                playerCheck = true;
+            }
+            if (Objects.equals(gc.getComponent().getName(), "portal")) {
+                portalCheck = true;
+            }
+            if (Objects.equals(gc.getComponent().getName(), "block")) {
+                blockCheck = true;
+            }
+        }
+        if (!playerCheck)
+            addGameObject(new Player(GameComponents.getComponent("player"),
+                    0, 900));
+        if (!portalCheck)
+            addGameObject(new Portal(GameComponents.getComponent("portal"),
+                    100, 900));
+        if (!blockCheck)
+            addGameObject(new GameObject(GameComponents.getComponent("block"),
+                    0, 1000));
+
+        generateSurface();
+        for (GameObject gc : getLevelsObjects()) {
+            while (!onSurface(gc)) {
+                System.out.println("falling" + gc);
+                gc.fall();
+            }
+        }
     }
 
     @Override
