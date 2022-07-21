@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
@@ -15,6 +14,11 @@ public class LevelPanel extends JPanel implements ActionListener {
         window.frame.getContentPane().add(this);
         jLabel.add(menu.getMenu());
         jLabel.add(menu.getGameName());
+        jLabel.add(menu.getBackButton());
+
+        menu.getBackButton().addActionListener(e -> levelPanel.actionPerformed(new ActionEvent(e.getSource(), e.getID(),
+                "Back")));
+
         final int[] selected = new int[1];
         menu.getMenu().addListSelectionListener(e -> selected[0] = ((JList<?>)e.getSource()).
                 getSelectedIndex());
@@ -22,12 +26,8 @@ public class LevelPanel extends JPanel implements ActionListener {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     System.out.println("Pressed " + selected[0]);
-                    if (selected[0] == menu.getMenu().getModel().getSize() - 1)
-                        levelPanel.actionPerformed(new ActionEvent(e.getSource(),
-                                e.getID(), "Back"));
-                    else
-                        levelPanel.actionPerformed(new ActionEvent(e.getSource(),
-                            e.getID(), "" + selected[0]));
+                    levelPanel.actionPerformed(new ActionEvent(e.getSource(),
+                        e.getID(), "" + selected[0]));
                 }
             }
         });

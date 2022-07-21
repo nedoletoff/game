@@ -4,18 +4,26 @@ public class LevelMenu {
     JList<String> menu;
     ImageIcon back;
     JLabel gameName;
+    JButton backButton;
 
     public LevelMenu() {
+        backButton = new JButton("Back");
+        backButton.setBounds(10, 10, 180, 80);
+        backButton.setFont(Window.buttonFont);
+        backButton.setForeground(Window.buttonFontColor);
+        backButton.setBackground(Window.buttonBackground);
+        backButton.setOpaque(false);
+
         Levels levels = new Levels("levels");
         DefaultListModel<String> menuList = new DefaultListModel<>();
         menuList.addAll(levels.getLevelsNames());
-        menuList.addElement("Back");
+        backButton.setHorizontalAlignment(SwingConstants.LEFT);
 
         menu = new JList<>(menuList);
         menu.setBounds(Window.WIDTH / 2 - 800,Window. HEIGHT / 2 - 250,
                 800, 400);
         menu.setName("LevelMenu");
-        menu.setFont(Window.menuFont);
+        menu.setFont(Window.levelFont);
         menu.setForeground(Window.levelFontColor);
         menu.setBackground(Window.background);
         menu.setOpaque(false);
@@ -33,6 +41,9 @@ public class LevelMenu {
                 800, 200);
 
         back = new ImageIcon("images/game_image.jpg");
+    }
+    public JButton getBackButton() {
+        return  backButton;
     }
 
     public ImageIcon getBack() {

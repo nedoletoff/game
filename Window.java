@@ -5,19 +5,28 @@ import java.awt.event.ActionListener;
 
 public class Window implements ActionListener {
     public JFrame frame = new JFrame("Circle Adventure");
-    public static final int MENU = 0;
-    public static final int PLAY = 1;
-    public static final int REDACTOR = 2;
     public static final int HEIGHT = 1080;
     public static final int WIDTH = 1920;
     public static Font menuFont = new Font("Comic Sans MS",
-            Font.PLAIN, 55);
-    public static Color menuFontColor = new Color(255, 255, 51);
-    public static Color background = new Color(20, 150, 180);
+            Font.PLAIN, 52);
+    public static Font buttonFont = new Font("Comic Sans MS",
+            Font.BOLD, 60);
+    public static Font levelFont = new Font("Comic Sans MS",
+            Font.PLAIN, 50);
+    public static Font miniButtonFont = new Font("Comic Sans MS",
+            Font.PLAIN, 30);
     public static Font nameFont = new Font("Trebuchet MS",
             Font.PLAIN, 92);
+    public static Font dialogFont = new Font("Trebuchet MS",
+            Font.PLAIN, 20);
+    public static Color buttonFontColor = new Color(243, 198, 20 );
+    public static Color menuFontColor = new Color(255, 255, 51);
+    public static Color levelFontColor = new Color(170, 255, 0);
+    public static Color background = new Color(20, 150, 180);
+    public static Color buttonBackground = new Color(33, 68, 182);
     public static Color nameFontColor = new Color(255, 255, 0);
     public static void main(String[] args) {
+        GameComponents.load();
         Window display = new Window();
         display.show();
         //Display.start();
@@ -27,7 +36,7 @@ public class Window implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setUndecorated(false);
         frame.setIconImage(new ImageIcon(
-                "C:\\Users\\nedoletoff\\IdeaProjects\\game\\images\\circle.png").getImage());
+                "images\\circle.png").getImage());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
 
@@ -53,9 +62,19 @@ public class Window implements ActionListener {
         System.out.println("To level");
     }
 
+    private void goToRedactor() {
+        frame.getContentPane().removeAll();
+        frame.invalidate();
+        new RedactorPanel(this);
+        frame.revalidate();
+        System.out.println("To Redactor");
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getActionCommand());
+        //System.out.println(e.getActionCommand());
+        //System.out.println(e.getSource());
+        //System.out.println(e.getID());
         switch (e.getActionCommand()) {
             case ("Back to main menu") -> {
                 goToMainMenu();
@@ -63,6 +82,10 @@ public class Window implements ActionListener {
             case ("Go to level menu") -> {
                 goToLevelMenu();
             }
+            case ("Go to level redactor") -> {
+                goToRedactor();
+            }
+            //case ("Go to level -")
         }
     }
 }
