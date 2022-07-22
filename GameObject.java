@@ -21,7 +21,7 @@ public class GameObject implements Serializable {
     int protection = 10;
     public static int ObjectId = 0;
     boolean canFall = false;
-    protected int jumpSpeed = 5;
+    protected int jumpSpeed = 10;
 
 
     public static void setFrame(int width, int height) {
@@ -203,6 +203,8 @@ public class GameObject implements Serializable {
     }
 
     public void hit(GameObject other) {
+        if (this.equals(other))
+            return;
         System.out.println(this + "hit" + other);
         hitOther(other, whereIsObject(other));
         other.hitOther(this, other.whereIsObject(this));
@@ -267,22 +269,21 @@ public class GameObject implements Serializable {
         return true;
     }
     public void update(Level level) {
-        if (!level.onSurface(this))
-            fall();
+        fall(level);
         if (hitPoints <= 0) {
-            die();
+            die(level);
             level.gameObjects.remove(id);
         }
     }
 
-    public void die() {
-
+    public void die(Level level) {
         System.out.println(this + "dead");
     }
 
-    public void fall() {
-        if (verticalCoordinate + component.verticalSize <= HEIGHT)
+    public void fall(Level level) {
+        if (!level.onSurface(this)) {
             move(0, jumpSpeed);
+        }
     }
 
     public boolean equals(GameObject other) {

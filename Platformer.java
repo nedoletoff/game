@@ -9,10 +9,24 @@ public class Platformer {
         this.player = player;
         this.currentLevel = currentLevel;
         this.pressedKeys = currentLevel.pressedKeys;
+        currentLevel.generateSurface();
     }
 
-    public void update() {
-        for (GameObject gameObject : currentLevel.getLevelsObjects())
-            gameObject.update(currentLevel);
+    public void update(int timer) {
+        if (!currentLevel.endLevel) {
+            for (GameObject gameObject : currentLevel.getLevelsObjects())
+                gameObject.update(currentLevel);
+            currentLevel.setTimer(timer);
+        }
+    }
+
+    public boolean isPlayerALive() {
+        try {
+            currentLevel.getGameObject(player.getId());
+            return true;
+        } catch (RuntimeException ignored) {
+            return false;
+        }
+
     }
 }

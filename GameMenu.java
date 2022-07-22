@@ -1,4 +1,7 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameMenu {
     ImageIcon back;
@@ -6,6 +9,7 @@ public class GameMenu {
     JButton restartButton;
     JLabel scoreLabel;
     JLabel timerLabel;
+    JDialog jDialog;
 
     public GameMenu() {
         backButton = new JButton("Back");
@@ -14,6 +18,7 @@ public class GameMenu {
         backButton.setForeground(Window.buttonFontColor);
         backButton.setBackground(Window.buttonBackground);
         backButton.setHorizontalAlignment(JLabel.CENTER);
+        backButton.setOpaque(false);
 
         restartButton = new JButton("Restart");
         restartButton.setBounds(10, 50, 180, 40);
@@ -21,6 +26,7 @@ public class GameMenu {
         restartButton.setForeground(Window.levelFontColor);
         restartButton.setBackground(Window.background);
         restartButton.setHorizontalAlignment(JLabel.CENTER);
+        restartButton.setOpaque(false);
 
 
         back = new ImageIcon("images/game_image.jpg");
@@ -73,6 +79,70 @@ public class GameMenu {
 
     public int getScore() {
         return Integer.parseInt(scoreLabel.getText().split(": ")[1]);
+    }
+
+    public JDialog getEndGameDialog(ActionListener actionListener, JFrame frame) {
+        jDialog = new JDialog(frame);
+
+        jDialog.setTitle("End Game");
+        jDialog.setIconImage(new ImageIcon("images\\circle.png").getImage());
+        jDialog.setBounds(Window.WIDTH / 2 - 400, Window.HEIGHT / 2 - 250, 800, 500);
+        jDialog.setBackground(Window.background);
+        jDialog.setFont(Window.levelFont);
+
+        JLabel text = new JLabel("Results");
+        text.setFont(Window.dialogFont);
+        text.setSize(140, 120);
+        text.setFont(Window.levelFont);
+        text.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JPanel panel = new JPanel();
+        GridLayout grid = new GridLayout(3, 3);
+        panel.setLayout(grid);
+
+        JButton back = new JButton("Back to menu");
+        back.setSize(120, 120);
+        back.addActionListener(e -> {
+            jDialog.setVisible(false);
+            actionListener.actionPerformed(new
+                ActionEvent(e.getSource(), e.getID(), "Back"));
+        });
+
+        JButton choose = new JButton("Chose level");
+        choose.setSize(120, 120);
+        choose.addActionListener(e -> {
+            jDialog.setVisible(false);
+            actionListener.actionPerformed(new
+                    ActionEvent(e.getSource(), 12, "Go to level menu"));
+        });
+        JButton restart = new JButton("restart");
+        restart.setSize(120, 120);
+        restart.addActionListener(e -> {
+            jDialog.setVisible(false);
+            actionListener.actionPerformed(new ActionEvent(e.getSource(), 11, "Restart"));
+        });
+
+        JLabel score = new JLabel("Score : " + getScore());
+        score.setSize(140, 120);
+        score.setFont(Window.levelFont);
+        score.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel timer = new JLabel("Timer : " + getTimer());
+        timer.setSize(140, 120);
+        timer.setFont(Window.levelFont);
+        timer.setHorizontalAlignment(SwingConstants.CENTER);
+
+
+        panel.add(new JLabel());
+        panel.add(text);
+        panel.add(new JLabel());
+        panel.add(score);
+        panel.add(new JLabel());
+        panel.add(timer);
+        panel.add(back);
+        panel.add(restart);
+        panel.add(choose);
+        jDialog.add(panel);
+        return jDialog;
     }
 }
 

@@ -22,7 +22,7 @@ public class Enemy extends GameObject {
         if (hitPoints >= 0) {
             if (!onObject)
                 for (GameObject gameObject : level.getLevelsObjects())
-                    if (isOnObject(gameObject)) {
+                    if (isStandOn(gameObject)) {
                         leftBorder = gameObject.getHitBox()[LEFT];
                         rightBorder = gameObject.getHitBox()[RIGHT];
                         onObject = true;
@@ -40,7 +40,13 @@ public class Enemy extends GameObject {
     }
 
     @Override
-    public boolean isOnObject(GameObject other) {
+    public void die(Level level) {
+        super.die(level);
+        level.addPoint();
+    }
+
+    @Override
+    public boolean isStandOn(GameObject other) {
         return  (whereIsObject(other) == DOWN && isNearHitBox(other));
     }
 }

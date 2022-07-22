@@ -19,15 +19,12 @@ public class LevelPanel extends JPanel implements ActionListener {
         menu.getBackButton().addActionListener(e -> levelPanel.actionPerformed(new ActionEvent(e.getSource(),
                 e.getID(), "Back")));
 
-        final int[] selected = new int[1];
-        menu.getMenu().addListSelectionListener(e -> selected[0] = ((JList<?>)e.getSource()).
-                getSelectedIndex());
         menu.getMenu().addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     System.out.println("Pressed " + menu.getMenu().getSelectedValue());
-                    levelPanel.actionPerformed(new ActionEvent(e.getSource(),
-                            777,  menu.getMenu().getSelectedValue()));
+                    levelPanel.actionPerformed(new ActionEvent(e.getSource(), 777,
+                            menu.getMenu().getSelectedValue().split(":")[0]));
                 }
             }
         });
@@ -36,8 +33,9 @@ public class LevelPanel extends JPanel implements ActionListener {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     //System.out.println("Pressed " + menu.getMenu().getSelectedValue());
-                    levelPanel.actionPerformed(new ActionEvent(e.getSource(),
-                            777,  menu.getMenu().getSelectedValue()));
+                    levelPanel.actionPerformed(new ActionEvent(e.getSource(), 777,
+                            menu.getMenu().getSelectedValue().split(":")[0]));
+
                 }
             }
         });

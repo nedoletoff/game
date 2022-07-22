@@ -31,12 +31,13 @@ public class Player extends GameObject {
 
     public void moveRight(Level level) {
         Coordinates nextPoint = getCoordinates();
-        nextPoint.x += speed;
+        nextPoint.x += 100 + speed;
         try {
             int id = level.getGameObjectId(nextPoint);
             hit(level.getGameObject(id));
-            if (isInHitBox(level.getGameObject(id)))
+            if (isInHitBox(level.getGameObject(id))) {
                 return;
+            }
             move(speed, 0);
         }
         catch (RuntimeException ignored) {
@@ -45,26 +46,25 @@ public class Player extends GameObject {
     }
 
     public void jump(Level level) {
-        Coordinates thisPoint = getCoordinates();
-        try {
-            int id = level.getGameObjectId(thisPoint);
-            hit(level.getGameObject(id));
-            if (isStandOn(level.getGameObject(id)))
-                jumpSpeed = -15;
+        if (level.onSurface(this)) {
+            jumpSpeed = -15;
+            move(0, jumpSpeed);
         }
-        catch (RuntimeException ignored) {}
+
     }
 
     @Override
-    public void fall() {
-        super.fall();
-        while (jumpSpeed < 5)
+    public void fall(Level level) {
+        super.fall(level);
+        if (level.onSurface(this)) {
+            jumpSpeed = 10;
+        }
+        if (jumpSpeed < 10)
             jumpSpeed++;
     }
 
     @Override
     public void update(Level level) {
-        super.update(level);
         if (level.pressedKeys.contains(KeyEvent.VK_A)) {
             moveLeft(level);
         }
@@ -89,11 +89,17 @@ public class Player extends GameObject {
                 return;
             }
         }
-        fall();
+        fall(level);
     }
     @Override
     public boolean isStandOn(GameObject other) {
         return  (whereIsObject(other) == DOWN && isNearHitBox(other)) ||
                 verticalCoordinate == HEIGHT;
+    }
+
+    @Override
+    public void die(Level level) {
+        super.die(level);
+        level.gameOver();
     }
 }

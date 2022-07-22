@@ -23,13 +23,20 @@ public class LevelMenu {
         newButton.setOpaque(false);
 
         Levels levels = new Levels("levels");
+        int index = 0;
         DefaultListModel<String> menuList = new DefaultListModel<>();
-        menuList.addAll(levels.getLevelsNames());
+        SavedLevel savedLevel;
+        for (String level : levels.getLevelsNames()) {
+            savedLevel = SavedLevel.load(level);
+            level += "\t\t:best time - " + savedLevel.bestTime;
+            level += ":best score - " + savedLevel.bestPoints;
+            menuList.add(index++, level);
+        }
         backButton.setHorizontalAlignment(SwingConstants.LEFT);
 
         menu = new JList<>(menuList);
         menu.setBounds(Window.WIDTH / 2 - 800,Window. HEIGHT / 2 - 250,
-                800, 400);
+                1600, 400);
         menu.setName("LevelMenu");
         menu.setFont(Window.levelFont);
         menu.setForeground(Window.levelFontColor);

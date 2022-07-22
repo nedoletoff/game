@@ -7,9 +7,8 @@ public class Coin extends GameObject{
     }
 
     @Override
-    public void update(Level level) {
-        super.update(level);
-        if (hitPoints <= 0)
-            level.addPoint();
+    public void die(Level level) {
+        super.die(level);
+        level.addPoint();
     }
 }

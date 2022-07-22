@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 
 public class Level {
@@ -7,6 +9,7 @@ public class Level {
     TreeMap<Integer, GameObject> gameObjects;
     public TreeSet<Integer> pressedKeys;
     Surface surface = new Surface();
+    public boolean endLevel;
     public static class Surface {
         Map<Integer, List<Integer>> surface;
 
@@ -18,14 +21,17 @@ public class Level {
             if (surface.get(x) != null) {
                 surface.get(x).add(y);
                 Collections.sort(surface.get(x));
-            } else surface.put(x, new ArrayList<>(y));
+            } else {
+                surface.put(x, new ArrayList<>());
+                surface.get(x).add(y);
+            }
         }
 
         public int get(Integer x, int y) {
             if (surface.get(x) != null) {
                 for (int i = 0; i < surface.get(x).size(); i++)
                     if (y <= surface.get(x).get(i))
-                        return y;
+                        return surface.get(x).get(i);
             }
             return GameObject.HEIGHT;
         }
@@ -37,7 +43,7 @@ public class Level {
         pressedKeys = new TreeSet<>();
     }
 
-    public void addGameObject(GameObject gameObject) {
+    public void addGameObject(@NotNull GameObject gameObject) {
         Integer id = gameObject.getId();
         if (!gameObjects.containsKey(id))
             gameObjects.put(id, gameObject);
@@ -99,14 +105,14 @@ public class Level {
         points++;
     }
 
-    public static Level load(String filename) {
+    public static @NotNull Level load(String filename) {
         SavedLevel sl = SavedLevel.load(filename);
         Level l = new Level(sl.levelName);
         l.gameObjects = sl.gameObjects;
         return l;
     }
 
-    public void save(String filename) {
+    public void save() {
         SavedLevel sl = SavedLevel.load(levelName);
         sl.bestPoints = Math.max(sl.bestPoints, getPoints());
         sl.bestTime = Math.min(sl.bestTime, getTimer());
@@ -118,10 +124,11 @@ public class Level {
     }
 
     public void generateSurface() {
+        surface = new Surface();
         for (GameObject gc : getLevelsObjects()) {
             for (GameObject gc2 : getLevelsObjects()) {
                 if (gc.equals(gc2)) continue;
-
+                if (Objects.equals(gc.component.getName(), "player")) continue;
                 if (gc.isStandOn(gc2)) {
                     for (int i = gc.getHitBox()[GameObject.LEFT]; i <=
                             gc.getHitBox()[GameObject.RIGHT]; i+=5)
@@ -132,7 +139,7 @@ public class Level {
         }
     }
 
-    public boolean onSurface(GameObject gameObject) {
+    public boolean onSurface(@NotNull GameObject gameObject) {
         if (!gameObject.isCanFall())
             return true;
         int down = gameObject.getHitBox()[GameObject.DOWN];
@@ -180,10 +187,16 @@ public class Level {
         generateSurface();
         for (GameObject gc : getLevelsObjects()) {
             while (!onSurface(gc)) {
-                System.out.println("falling" + gc);
-                gc.fall();
+                System.out.println("falling " + gc);
+                gc.fall(this);
             }
         }
+    }
+
+    public void gameOver() {
+        timer = 9999;
+        points = 0;
+        endLevel = true;
     }
 
     @Override

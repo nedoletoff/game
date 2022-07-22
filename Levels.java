@@ -13,7 +13,6 @@ public class Levels {
         for (File file : files) {
             filesName.add(file.getName());
         }
-
     }
 
     public void setPath(File path) {

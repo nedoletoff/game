@@ -18,7 +18,6 @@ public class GamePanel extends JPanel implements ActionListener {
         @Override
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
-            System.out.println("key" + e.getKeyCode());
             platformer.pressedKeys.add(e.getKeyCode());
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
                 mainListener.actionPerformed(new ActionEvent(e.getSource(),
@@ -33,17 +32,18 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public GamePanel(Window window, String levelName) {
         super();
-        timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gameMenu.setTimer(gameMenu.getTimer()+1);
-            }
-        });
-        timerPlatformer = new Timer(60, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                platformer.update();
-                repaintLevel();
+        GamePanel gamePanel = this;
+        timer = new Timer(1000, e -> gameMenu.setTimer(gameMenu.getTimer()+1));
+        timerPlatformer = new Timer(40, e -> {
+            platformer.update(gameMenu.getTimer());
+            repaintLevel();
+            gameMenu.setScore(platformer.currentLevel.points);
+            if (platformer.currentLevel.endLevel) {
+                platformer.currentLevel.save();
+                timerPlatformer.stop();
+                timer.stop();
+                gamePanel.actionPerformed(new ActionEvent(e.getSource(),
+                        993, "End game"));
             }
         });
 
@@ -70,10 +70,10 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void repaintLevel() {
-        //if (count++ == 20) {
-        //    eraseAll();
-        //    count = 0;
-        //}
+        if (count++ == 50) {
+            eraseAll();
+            count = 0;
+        }
         ArrayList<GameObject> gameObjects = platformer.currentLevel.getLevelsObjects();
         for (GameObject gameObject : gameObjects) {
             paintObject(gameObject);
@@ -118,15 +118,32 @@ public class GamePanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (Objects.equals(e.getActionCommand(), "Back")) {
+            gameMenu.getEndGameDialog(this,
+                    mainListener.frame).setVisible(false);
             mainListener.actionPerformed(new ActionEvent(e.getSource(),
                     e.getID(), "Back to main menu"));
         }
         switch (e.getID()) {
             case (11) -> {
+                gameMenu.getEndGameDialog(this,
+                        mainListener.frame).setVisible(false);
                 mainListener.actionPerformed(new ActionEvent(e.getSource(),
                         e.getID(), "Back to main menu"));
                 mainListener.actionPerformed(new ActionEvent(e.getSource(),
                         777, platformer.currentLevel.getLevelName()));
+            }
+            case (993) -> gameMenu.getEndGameDialog(this,
+                    mainListener.frame).setVisible(true);
+            case (12) -> {
+                gameMenu.getEndGameDialog(this,
+                        mainListener.frame).setVisible(false);
+                mainListener.actionPerformed(new ActionEvent(e.getSource(), e.getID(),
+                        "Go to level menu"));
+            }
+            default -> {
+                System.out.println(e.getSource());
+                System.out.println(e.getID());
+                System.out.println(e.getActionCommand());
             }
         }
 
