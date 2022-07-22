@@ -18,9 +18,10 @@ public class GameObject implements Serializable {
     int hitPoints = 10;
     int[] damageCoefficient = {0, 0, 0, 0}; //up, down, left, right
     boolean canMove = false;
-    int protection = 6;
+    int protection = 10;
     public static int ObjectId = 0;
     boolean canFall = false;
+    protected int jumpSpeed = 5;
 
 
     public static void setFrame(int width, int height) {
@@ -142,9 +143,9 @@ public class GameObject implements Serializable {
         Coordinates otherCenter = other.whereIsCenter();
 
         boolean xIntersection =  (Math.abs(center.x - otherCenter.x) <
-                this.component.getHorizontalSize() + other.component.getHorizontalSize());
+                this.component.getHorizontalSize() / 2 + other.component.getHorizontalSize() / 2);
         boolean yIntersection = (Math.abs(center.y - otherCenter.y) <
-                this.component.getVerticalSize() + other.component.getVerticalSize());
+                this.component.getVerticalSize() / 2+ other.component.getVerticalSize() / 2);
 
         return  (xIntersection && yIntersection);
     }
@@ -154,11 +155,11 @@ public class GameObject implements Serializable {
         Coordinates otherCenter = other.whereIsCenter();
 
         boolean xIntersection =  (Math.abs(center.x - otherCenter.x) ==
-                this.component.getHorizontalSize() + other.component.getHorizontalSize());
+                this.component.getHorizontalSize() / 2 + other.component.getHorizontalSize() /2 );
         boolean yIntersection = (Math.abs(center.y - otherCenter.y) ==
-                this.component.getVerticalSize() + other.component.getVerticalSize());
+                this.component.getVerticalSize() / 2 + other.component.getVerticalSize() / 2);
 
-        return  (xIntersection || yIntersection);
+        return  (xIntersection && yIntersection);
     }
 
     public int whereIsObject(GameObject other) {
@@ -197,11 +198,12 @@ public class GameObject implements Serializable {
     public void hitOther(GameObject other, int side) {
         if (other.protection < damage * damageCoefficient[side] ||
                 damage * damageCoefficient[side] < 0) {
-            other.hitPoints -= damage * damageCoefficient[side] + other.protection;
+            other.hitPoints -= damage * damageCoefficient[side] - other.protection;
         }
     }
 
     public void hit(GameObject other) {
+        System.out.println(this + "hit" + other);
         hitOther(other, whereIsObject(other));
         other.hitOther(this, other.whereIsObject(this));
     }
@@ -246,6 +248,8 @@ public class GameObject implements Serializable {
     }
 
     public void moveOut(GameObject other) {
+        if (this.equals(other))
+            return;
         while (isInHitBox(other)) {
             if (whereIsObject(other) == RIGHT)
                 moveHorizontal(-5);
@@ -259,17 +263,12 @@ public class GameObject implements Serializable {
 
     }
 
-    public boolean isOnObject(GameObject other) {
+    public boolean isStandOn(GameObject other) {
         return true;
     }
     public void update(Level level) {
-        for (GameObject gameObject : level.getLevelsObjects()) {
-            if (this.equals(gameObject))
-                continue;
-            if (isInHitBox(gameObject)) {
-                moveOut(gameObject);
-            }
-        }
+        if (!level.onSurface(this))
+            fall();
         if (hitPoints <= 0) {
             die();
             level.gameObjects.remove(id);
@@ -278,11 +277,12 @@ public class GameObject implements Serializable {
 
     public void die() {
 
+        System.out.println(this + "dead");
     }
 
     public void fall() {
         if (verticalCoordinate + component.verticalSize <= HEIGHT)
-            move(0, 5);
+            move(0, jumpSpeed);
     }
 
     public boolean equals(GameObject other) {

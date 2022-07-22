@@ -134,6 +134,8 @@ public class RedactorPanel extends JPanel implements ActionListener {
     }
 
     private void paintObject(GameObject gameObject) {
+        if (gameObject.component.getName() == "block")
+            gameObject.setProtection(10);
         ImageIcon icon = new ImageIcon(gameObject.getComponent().imageName);
         JLabel label = new JLabel(icon);
         Coordinates coordinate = gameObject.getCoordinates();

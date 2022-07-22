@@ -48,9 +48,11 @@ public class LevelPanel extends JPanel implements ActionListener {
             mainListener.actionPerformed(new ActionEvent(e.getSource(),
                     e.getID(), "Back to main menu"));
         switch (e.getID()) {
-           case (777) ->
-            mainListener.actionPerformed(new ActionEvent(e.getSource(),
-                    e.getID(), e.getActionCommand()));
+           case (777) -> {
+               System.out.println(e.getActionCommand());
+               mainListener.actionPerformed(new ActionEvent(e.getSource(),
+                       e.getID(), e.getActionCommand()));
+           }
             case (999) -> mainListener.actionPerformed(new ActionEvent(e.getSource(),
                    e.getID(), "New level"));
         }

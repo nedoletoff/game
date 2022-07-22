@@ -9,6 +9,7 @@ public class TestComponent {
 
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("g.data"))) {
             oos.writeObject(g);
+            System.out.println("Save test:true");
         } catch (IOException e) {
             throw new RuntimeException(e);
         };
@@ -16,6 +17,7 @@ public class TestComponent {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("g.data"))) {
             GameComponent gg = (GameComponent)ois.readObject();
             System.out.println(gg);
+            System.out.println("Load test:" + g.equals(gg));
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

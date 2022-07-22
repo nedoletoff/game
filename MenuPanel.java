@@ -19,7 +19,6 @@ public class MenuPanel extends JPanel implements ActionListener {
         mainMenu.getMenu().addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    System.out.println("Pressed " + selected[0]);
                     menuPanel.actionPerformed(new ActionEvent(e.getSource(),
                             e.getID(), "Enter " + selected[0]));
                 }
@@ -29,7 +28,6 @@ public class MenuPanel extends JPanel implements ActionListener {
         mainMenu.getMenu().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    System.out.println("Pressed " + selected[0]);
                     menuPanel.actionPerformed(new ActionEvent(e.getSource(),
                             e.getID(), "Enter " + selected[0]));
                 }
@@ -53,7 +51,7 @@ public class MenuPanel extends JPanel implements ActionListener {
             }
             case ("Enter 0") -> {
                 mainListener.actionPerformed(new ActionEvent(e.getSource(),
-                        e.getID(), "Go to level 0"));
+                        777, "start"));
 
             }
         }

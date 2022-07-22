@@ -1,8 +1,6 @@
 import java.awt.event.KeyEvent;
-import java.util.HashSet;
 
 public class Player extends GameObject {
-    int jumpSpeed = speed;
     public Player(GameComponent component, int horizontalCoordinate, int verticalCoordinate) {
         super(component, horizontalCoordinate, verticalCoordinate);
         damage = 1;
@@ -16,42 +14,85 @@ public class Player extends GameObject {
         canFall = true;
     }
 
+    public void moveLeft(Level level) {
+        Coordinates nextPoint = getCoordinates();
+        nextPoint.x -= speed;
+        try {
+            int id = level.getGameObjectId(nextPoint);
+            hit(level.getGameObject(id));
+            if (isInHitBox(level.getGameObject(id)))
+                return;
+            move(-speed, 0);
+        }
+        catch (RuntimeException ignored) {
+            move(-speed, 0);
+        }
+    }
+
+    public void moveRight(Level level) {
+        Coordinates nextPoint = getCoordinates();
+        nextPoint.x += speed;
+        try {
+            int id = level.getGameObjectId(nextPoint);
+            hit(level.getGameObject(id));
+            if (isInHitBox(level.getGameObject(id)))
+                return;
+            move(speed, 0);
+        }
+        catch (RuntimeException ignored) {
+            move(speed, 0);
+        }
+    }
+
+    public void jump(Level level) {
+        Coordinates thisPoint = getCoordinates();
+        try {
+            int id = level.getGameObjectId(thisPoint);
+            hit(level.getGameObject(id));
+            if (isStandOn(level.getGameObject(id)))
+                jumpSpeed = -15;
+        }
+        catch (RuntimeException ignored) {}
+    }
+
+    @Override
+    public void fall() {
+        super.fall();
+        while (jumpSpeed < 5)
+            jumpSpeed++;
+    }
+
     @Override
     public void update(Level level) {
         super.update(level);
         if (level.pressedKeys.contains(KeyEvent.VK_A)) {
-            move(-speed, 0);
+            moveLeft(level);
         }
         if (level.pressedKeys.contains(KeyEvent.VK_D)) {
-            move(speed, 0);
+            moveRight(level);
+        }
+        if (level.pressedKeys.contains(KeyEvent.VK_SPACE)) {
+            jump(level);
         }
 
-        if (level.pressedKeys.contains(KeyEvent.VK_SPACE)) {
-            move(0, jumpSpeed--);
-        }
-        else
-            jumpSpeed = speed;
         for (GameObject gameObject : level.getLevelsObjects()) {
-            if (this.equals(gameObject))
-                continue;
+            if (this.equals(gameObject)) continue;
             if (isInHitBox(gameObject)) {
                 hit(gameObject);
                 moveOut(gameObject);
             }
         }
         for (GameObject gameObject : level.getLevelsObjects()) {
-            if (this.equals(gameObject))
-
-                continue;
-            if (isOnObject(gameObject)) {
+            if (this.equals(gameObject)) continue;
+            if (isStandOn(gameObject)) {
                 hit(gameObject);
                 return;
             }
         }
-        move(0, -jumpSpeed);
+        fall();
     }
     @Override
-    public boolean isOnObject(GameObject other) {
+    public boolean isStandOn(GameObject other) {
         return  (whereIsObject(other) == DOWN && isNearHitBox(other)) ||
                 verticalCoordinate == HEIGHT;
     }

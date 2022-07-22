@@ -136,19 +136,15 @@ public class Redactor {
         confirm.addActionListener(e -> actionListener.actionPerformed(new
                 ActionEvent(e.getSource(), 300, e.getActionCommand())));
         panel.add(confirm);
-        //confirm.setSize(150, 100);
 
         JButton remove = new JButton("Remove");
         remove.setName("Remove");
         remove.addActionListener(e -> actionListener.actionPerformed(new
                 ActionEvent(e.getSource(), 301, e.getActionCommand())));
         panel.add(remove);
-        //remove.setSize(150, 100);
 
         res.add(text, BorderLayout.NORTH);
         res.add(panel, BorderLayout.CENTER);
-        //res.add(confirm, FlowLayout.LEFT);
-        //res.add(remove, FlowLayout.RIGHT);
         return  res;
     }
 

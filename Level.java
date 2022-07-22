@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.List;
 
 public class Level {
     String levelName;
@@ -16,7 +15,7 @@ public class Level {
         }
 
         public void put(Integer x, Integer y) {
-            if (surface.get(x) == null) {
+            if (surface.get(x) != null) {
                 surface.get(x).add(y);
                 Collections.sort(surface.get(x));
             } else surface.put(x, new ArrayList<>(y));
@@ -46,7 +45,7 @@ public class Level {
 
     public void removeGameObject(Integer id) {
         gameObjects.remove(id);
-        System.out.println(id + "object removed" );
+        //System.out.println(id + " object removed" );
     }
 
     public void setLevelName(String levelName) {
@@ -123,7 +122,7 @@ public class Level {
             for (GameObject gc2 : getLevelsObjects()) {
                 if (gc.equals(gc2)) continue;
 
-                if (gc.isOnObject(gc2)) {
+                if (gc.isStandOn(gc2)) {
                     for (int i = gc.getHitBox()[GameObject.LEFT]; i <=
                             gc.getHitBox()[GameObject.RIGHT]; i+=5)
                         surface.put(i, gc.getHitBox()[GameObject.UP]);
@@ -142,6 +141,15 @@ public class Level {
             if (surface.get(i, down ) == down)
                 return true;
         return false;
+    }
+
+    public Player getPlayer() throws RuntimeException {
+        for (GameObject gc : getLevelsObjects()) {
+            if (Objects.equals(gc.getComponent().getName(), "player")) {
+                return (Player) gc;
+            }
+        }
+        throw new RuntimeException("Player not found");
     }
     public void fixLevel() {
         boolean playerCheck = false;

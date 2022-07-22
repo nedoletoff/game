@@ -86,6 +86,14 @@ public class Window implements ActionListener {
         System.out.println("To Redactor " + levelName);
     }
 
+    private void goToLevel(String levelName) {
+        frame.getContentPane().removeAll();
+        frame.invalidate();
+        new GamePanel(this, levelName);
+        frame.revalidate();
+        System.out.print(" to play");
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         //System.out.println(e.getActionCommand());
@@ -105,9 +113,9 @@ public class Window implements ActionListener {
                 switch (e.getID()) {
                     case (999) -> goToRedactor();
                     case (888) -> goToRedactor(e.getActionCommand());
+                    case (777) -> goToLevel(e.getActionCommand());
                 }
             }
-            //case ("Go to level -")
         }
     }
 }

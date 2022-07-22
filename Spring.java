@@ -5,7 +5,7 @@ public class Spring extends GameObject {
     }
 
     @Override
-    public boolean isOnObject(GameObject other) {
+    public boolean isStandOn(GameObject other) {
         return  (whereIsObject(other) == DOWN && isNearHitBox(other));
     }
 }
