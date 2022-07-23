@@ -1,7 +1,7 @@
-public class Spikes extends GameObject {
+public class Spike extends GameObject {
 
-    public Spikes(GameComponent component, int horizontalCoordinate,
-                  int verticalCoordinate) {
+    public Spike(GameComponent component, int horizontalCoordinate,
+                 int verticalCoordinate) {
         super(component, horizontalCoordinate, verticalCoordinate);
         damage = 100;
         damageCoefficient[UP] = 1;

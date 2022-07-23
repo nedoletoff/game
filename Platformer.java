@@ -20,13 +20,4 @@ public class Platformer {
         }
     }
 
-    public boolean isPlayerALive() {
-        try {
-            currentLevel.getGameObject(player.getId());
-            return true;
-        } catch (RuntimeException ignored) {
-            return false;
-        }
-
-    }
 }

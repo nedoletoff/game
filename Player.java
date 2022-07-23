@@ -65,6 +65,8 @@ public class Player extends GameObject {
 
     @Override
     public void update(Level level) {
+        if (hitPoints < 0)
+            die(level);
         if (level.pressedKeys.contains(KeyEvent.VK_A)) {
             moveLeft(level);
         }

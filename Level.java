@@ -51,7 +51,6 @@ public class Level {
 
     public void removeGameObject(Integer id) {
         gameObjects.remove(id);
-        //System.out.println(id + " object removed" );
     }
 
     public void setLevelName(String levelName) {
@@ -116,6 +115,7 @@ public class Level {
         SavedLevel sl = SavedLevel.load(levelName);
         sl.bestPoints = Math.max(sl.bestPoints, getPoints());
         sl.bestTime = Math.min(sl.bestTime, getTimer());
+        sl.save(levelName);
     }
 
     public void redactorSave() {
@@ -129,6 +129,10 @@ public class Level {
             for (GameObject gc2 : getLevelsObjects()) {
                 if (gc.equals(gc2)) continue;
                 if (Objects.equals(gc.component.getName(), "player")) continue;
+                if (Objects.equals(gc.component.getName(), "spike")) continue;
+                if (Objects.equals(gc.component.getName(), "coin")) continue;
+                if (Objects.equals(gc.component.getName(), "portal")) continue;
+                if (Objects.equals(gc.component.getName(), "enemy")) continue;
                 if (gc.isStandOn(gc2)) {
                     for (int i = gc.getHitBox()[GameObject.LEFT]; i <=
                             gc.getHitBox()[GameObject.RIGHT]; i+=5)
@@ -161,7 +165,6 @@ public class Level {
     public void fixLevel() {
         boolean playerCheck = false;
         boolean portalCheck = false;
-        boolean blockCheck = false;
 
         for (GameObject gc : getLevelsObjects()) {
             if (Objects.equals(gc.getComponent().getName(), "player")) {
@@ -170,9 +173,6 @@ public class Level {
             if (Objects.equals(gc.getComponent().getName(), "portal")) {
                 portalCheck = true;
             }
-            if (Objects.equals(gc.getComponent().getName(), "block")) {
-                blockCheck = true;
-            }
         }
         if (!playerCheck)
             addGameObject(new Player(GameComponents.getComponent("player"),
@@ -180,9 +180,6 @@ public class Level {
         if (!portalCheck)
             addGameObject(new Portal(GameComponents.getComponent("portal"),
                     100, 900));
-        if (!blockCheck)
-            addGameObject(new GameObject(GameComponents.getComponent("block"),
-                    0, 1000));
 
         generateSurface();
         for (GameObject gc : getLevelsObjects()) {

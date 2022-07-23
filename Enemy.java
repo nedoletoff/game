@@ -19,23 +19,19 @@ public class Enemy extends GameObject {
     @Override
     public void update(Level level) {
         super.update(level);
-        if (hitPoints >= 0) {
-            if (!onObject)
-                for (GameObject gameObject : level.getLevelsObjects())
-                    if (isStandOn(gameObject)) {
-                        leftBorder = gameObject.getHitBox()[LEFT];
-                        rightBorder = gameObject.getHitBox()[RIGHT];
-                        onObject = true;
-                        break;
-                    }
-            if (onObject) {
-                if (leftBorder >= getHitBox()[LEFT] || rightBorder <= getHitBox()[RIGHT]) {
-                    direct *= -1;
+        if (!onObject)
+            for (GameObject gameObject : level.getLevelsObjects())
+                if (isStandOn(gameObject)) {
+                    leftBorder = gameObject.getHitBox()[LEFT];
+                    rightBorder = gameObject.getHitBox()[RIGHT];
+                    onObject = true;
+                    break;
                 }
-                move(direct * speed, 0);
+        if (onObject) {
+            if (leftBorder >= getHitBox()[LEFT] || rightBorder <= getHitBox()[RIGHT]) {
+                direct *= -1;
             }
-            else
-               move(0, speed);
+            move(direct * speed, 0);
         }
     }
 
@@ -43,6 +39,7 @@ public class Enemy extends GameObject {
     public void die(Level level) {
         super.die(level);
         level.addPoint();
+        level.generateSurface();
     }
 
     @Override

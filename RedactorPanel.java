@@ -66,7 +66,7 @@ public class RedactorPanel extends JPanel implements ActionListener {
             }
         };
 
-        timer = new Timer(20, e -> repaintLevel());
+        timer = new Timer(10, e -> repaintLevel());
         timer.start();
     }
 
@@ -74,6 +74,7 @@ public class RedactorPanel extends JPanel implements ActionListener {
         this(window);
         this.levelName = levelName;
         level = Level.load(levelName);
+        GameObject.ObjectId = level.getGameObjectsNum();
     }
 
     private void openChoseObject() {
@@ -97,7 +98,6 @@ public class RedactorPanel extends JPanel implements ActionListener {
         int x = tempX;
         int y = tempY;
         System.out.println(componentName + " " + x + " " + y);
-        int id = GameObject.ObjectId;
         switch (tempComponent) {
             case ("player") -> level.addGameObject(new Player(GameComponents.getComponent(tempComponent),
                     x, y));
@@ -105,7 +105,7 @@ public class RedactorPanel extends JPanel implements ActionListener {
                     x, y));
             case ("coin") -> level.addGameObject(new Coin(GameComponents.getComponent(tempComponent),
                     x, y));
-            case ("spikes") -> level.addGameObject(new Spikes(GameComponents.getComponent(tempComponent),
+            case ("spike") -> level.addGameObject(new Spike(GameComponents.getComponent(tempComponent),
                     x, y));
             case ("portal") -> level.addGameObject(new Portal(GameComponents.getComponent(tempComponent),
                     x, y));
@@ -114,7 +114,7 @@ public class RedactorPanel extends JPanel implements ActionListener {
             default -> level.addGameObject(new GameObject(GameComponents.getComponent(tempComponent),
                     x, y));
         }
-        paintObject(level.getGameObject(++id));
+        paintObject(level.getGameObject(level.getGameObjectId(new Coordinates(x, y))));
         tempX = 0;
         tempY = 0;
         repaintLevel();
@@ -134,8 +134,6 @@ public class RedactorPanel extends JPanel implements ActionListener {
     }
 
     private void paintObject(GameObject gameObject) {
-        if (gameObject.component.getName() == "block")
-            gameObject.setProtection(10);
         ImageIcon icon = new ImageIcon(gameObject.getComponent().imageName);
         JLabel label = new JLabel(icon);
         Coordinates coordinate = gameObject.getCoordinates();
@@ -184,6 +182,7 @@ public class RedactorPanel extends JPanel implements ActionListener {
 
     public void save() {
         level.fixLevel();
+        repaint();
         level.redactorSave();
     }
 
@@ -197,6 +196,7 @@ public class RedactorPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (Objects.equals(e.getActionCommand(), "Back")) {
+            removeAll();
             mainListener.actionPerformed(new ActionEvent(e.getSource(),
                     e.getID(), "Back to main menu"));
             System.out.println(level);

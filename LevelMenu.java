@@ -28,7 +28,7 @@ public class LevelMenu {
         SavedLevel savedLevel;
         for (String level : levels.getLevelsNames()) {
             savedLevel = SavedLevel.load(level);
-            level += "\t\t:best time - " + savedLevel.bestTime;
+            level += ":         best time - " + savedLevel.bestTime;
             level += ":best score - " + savedLevel.bestPoints;
             menuList.add(index++, level);
         }
@@ -38,7 +38,7 @@ public class LevelMenu {
         menu.setBounds(Window.WIDTH / 2 - 800,Window. HEIGHT / 2 - 250,
                 1600, 400);
         menu.setName("LevelMenu");
-        menu.setFont(Window.levelFont);
+        menu.setFont(Window.miniLevelFont);
         menu.setForeground(Window.levelFontColor);
         menu.setBackground(Window.background);
         menu.setOpaque(false);

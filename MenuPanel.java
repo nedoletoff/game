@@ -42,14 +42,17 @@ public class MenuPanel extends JPanel implements ActionListener {
                 System.exit(0);
             }
             case ("Enter 2") -> {
+                removeAll();
                 mainListener.actionPerformed(new ActionEvent(e.getSource(),
                         e.getID(), "Go to level redactor"));
             }
             case ("Enter 1") -> {
+                removeAll();
                 mainListener.actionPerformed(new ActionEvent(e.getSource(),
                         e.getID(), "Go to level menu"));
             }
             case ("Enter 0") -> {
+                removeAll();
                 mainListener.actionPerformed(new ActionEvent(e.getSource(),
                         777, "start"));
 

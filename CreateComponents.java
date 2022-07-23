@@ -9,7 +9,7 @@ public class CreateComponents {
         GameComponent coin = new GameComponent("coin", "coin.png",
                 50, 50);
         GameComponent spring = new GameComponent("spring", "spring.png",
-                100, 100);
+                50, 80);
         GameComponent spike = new GameComponent("spike", "spike.png",
                 100, 100);
         GameComponent portal = new GameComponent("portal", "portal.png",

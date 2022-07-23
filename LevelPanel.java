@@ -32,7 +32,6 @@ public class LevelPanel extends JPanel implements ActionListener {
         menu.getMenu().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    //System.out.println("Pressed " + menu.getMenu().getSelectedValue());
                     levelPanel.actionPerformed(new ActionEvent(e.getSource(), 777,
                             menu.getMenu().getSelectedValue().split(":")[0]));
 
@@ -43,16 +42,23 @@ public class LevelPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (Objects.equals(e.getActionCommand(), "Back"))
+            removeAll();
             mainListener.actionPerformed(new ActionEvent(e.getSource(),
                     e.getID(), "Back to main menu"));
         switch (e.getID()) {
            case (777) -> {
+               removeAll();
                System.out.println(e.getActionCommand());
                mainListener.actionPerformed(new ActionEvent(e.getSource(),
                        e.getID(), e.getActionCommand()));
            }
             case (999) -> mainListener.actionPerformed(new ActionEvent(e.getSource(),
                    e.getID(), "New level"));
+            default -> {
+                System.out.println(e.getSource());
+                System.out.println(e.getID());
+                System.out.println(e.getActionCommand());
+            }
         }
     }
 }

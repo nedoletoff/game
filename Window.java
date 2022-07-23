@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class Window implements ActionListener {
     public JFrame frame = new JFrame("Circle Adventure");
@@ -13,6 +14,8 @@ public class Window implements ActionListener {
             Font.BOLD, 60);
     public static Font levelFont = new Font("Comic Sans MS",
             Font.PLAIN, 50);
+    public static Font miniLevelFont = new Font("Comic Sans MS",
+            Font.PLAIN, 40);
     public static Font miniButtonFont = new Font("Comic Sans MS",
             Font.PLAIN, 30);
     public static Font nameFont = new Font("Trebuchet MS",
@@ -25,6 +28,7 @@ public class Window implements ActionListener {
     public static Color background = new Color(20, 150, 180);
     public static Color buttonBackground = new Color(33, 68, 182);
     public static Color nameFontColor = new Color(255, 255, 0);
+    String mode;
     public static void main(String[] args) {
         GameComponents.load();
         Window display = new Window();
@@ -47,6 +51,9 @@ public class Window implements ActionListener {
     }
 
     private void goToMainMenu() {
+        if (Objects.equals(mode, "MainMenu"))
+            return;
+        mode = "MainMenu";
         frame.getContentPane().removeAll();
         frame.invalidate();
         new MenuPanel(this);
@@ -55,6 +62,9 @@ public class Window implements ActionListener {
     }
 
     private void goToLevelMenu() {
+        if (Objects.equals(mode, "LevelMenu"))
+            return;
+        mode = "LevelMenu";
         frame.getContentPane().removeAll();
         frame.invalidate();
         new LevelPanel(this);
@@ -63,6 +73,9 @@ public class Window implements ActionListener {
     }
 
     private void goToLevelRedactorMenu() {
+        if (Objects.equals(mode, "RedactorMenu"))
+            return;
+        mode = "RedactorMenu";
         frame.getContentPane().removeAll();
         frame.invalidate();
         new LevelRedactorPanel(this);
@@ -71,6 +84,9 @@ public class Window implements ActionListener {
     }
 
     private void goToRedactor() {
+        if (Objects.equals(mode, "Redactor"))
+            return;
+        mode = "Redactor";
         frame.getContentPane().removeAll();
         frame.invalidate();
         new RedactorPanel(this);
@@ -79,6 +95,9 @@ public class Window implements ActionListener {
     }
 
     private void goToRedactor(String levelName) {
+        if (Objects.equals(mode, "Redactor"))
+            return;
+        mode = "Redactor";
         frame.getContentPane().removeAll();
         frame.invalidate();
         new RedactorPanel(this, levelName);
@@ -87,6 +106,9 @@ public class Window implements ActionListener {
     }
 
     private void goToLevel(String levelName) {
+        if (Objects.equals(mode, levelName))
+            return;
+        mode = levelName;
         frame.getContentPane().removeAll();
         frame.invalidate();
         new GamePanel(this, levelName);
@@ -96,9 +118,6 @@ public class Window implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //System.out.println(e.getActionCommand());
-        //System.out.println(e.getSource());
-        //System.out.println(e.getID());
         switch (e.getActionCommand()) {
             case ("Back to main menu") -> {
                 goToMainMenu();
