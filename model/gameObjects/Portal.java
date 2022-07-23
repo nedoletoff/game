@@ -1,3 +1,8 @@
+package model.gameObjects;
+
+import model.GameComponent;
+import model.Level;
+
 public class Portal extends GameObject {
     public Portal(GameComponent gameComponent, int horizontalCoordinate,
                   int verticalCoordinate) {

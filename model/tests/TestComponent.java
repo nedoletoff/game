@@ -1,3 +1,7 @@
+package model.tests;
+
+import model.GameComponent;
+
 import java.io.*;
 
 public class TestComponent {
@@ -6,7 +10,7 @@ public class TestComponent {
     public static void main(String[] args) throws FileNotFoundException {
         successCount = 0;
         failCount = 0;
-        GameComponent g = new GameComponent("Enemy",
+        GameComponent g = new GameComponent("model.gameObjects.Enemy",
                 "images\\enemy.png",
                 100, 100);
         //System.out.println(g);

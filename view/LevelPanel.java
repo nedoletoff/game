@@ -1,3 +1,5 @@
+package view;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.Objects;
@@ -41,10 +43,11 @@ public class LevelPanel extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (Objects.equals(e.getActionCommand(), "Back"))
+        if (Objects.equals(e.getActionCommand(), "Back")) {
             removeAll();
             mainListener.actionPerformed(new ActionEvent(e.getSource(),
                     e.getID(), "Back to main menu"));
+        }
         switch (e.getID()) {
            case (777) -> {
                removeAll();

@@ -1,3 +1,6 @@
+import model.GameComponent;
+import model.GameComponents;
+
 public class CreateComponents {
     public static void main(String[] args) {
         GameComponent player = new GameComponent("player", "circle.png",

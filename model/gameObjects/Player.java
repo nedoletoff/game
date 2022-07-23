@@ -1,3 +1,9 @@
+package model.gameObjects;
+
+import model.Coordinates;
+import model.GameComponent;
+import model.Level;
+
 import java.awt.event.KeyEvent;
 
 public class Player extends GameObject {

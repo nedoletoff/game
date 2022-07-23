@@ -1,3 +1,7 @@
+package model.gameObjects;
+
+import model.GameComponent;
+
 public class Spike extends GameObject {
 
     public Spike(GameComponent component, int horizontalCoordinate,

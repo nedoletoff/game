@@ -1,3 +1,5 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,7 +31,7 @@ public class GameMenu {
         restartButton.setOpaque(false);
 
 
-        back = new ImageIcon("images/game_image.jpg");
+        back = new ImageIcon("C:\\Users\\nedoletoff\\IdeaProjects\\game\\images/game_image.jpg");
 
 
         timerLabel = new JLabel("Timer: 0");
@@ -85,7 +87,7 @@ public class GameMenu {
         jDialog = new JDialog(frame);
 
         jDialog.setTitle("End Game");
-        jDialog.setIconImage(new ImageIcon("images\\circle.png").getImage());
+        jDialog.setIconImage(new ImageIcon("C:\\Users\\nedoletoff\\IdeaProjects\\game\\images\\circle.png").getImage());
         jDialog.setBounds(Window.WIDTH / 2 - 400, Window.HEIGHT / 2 - 250, 800, 500);
         jDialog.setBackground(Window.background);
         jDialog.setFont(Window.levelFont);

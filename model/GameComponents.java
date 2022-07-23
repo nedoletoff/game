@@ -1,3 +1,5 @@
+package model;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -6,7 +8,7 @@ public class GameComponents {
     static ArrayList<GameComponent> components = new ArrayList<>();
 
     public static void load() {
-        String path = "components";
+        String path = "C:\\Users\\nedoletoff\\IdeaProjects\\game\\components\\";
         File[] files = new File(path).listFiles();
         ArrayList<String> componentsNames = new ArrayList<>();
         assert files != null;

@@ -1,3 +1,8 @@
+package model;
+
+import model.gameObjects.GameObject;
+import model.gameObjects.Player;
+import model.gameObjects.Portal;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -128,11 +133,11 @@ public class Level {
         for (GameObject gc : getLevelsObjects()) {
             for (GameObject gc2 : getLevelsObjects()) {
                 if (gc.equals(gc2)) continue;
-                if (Objects.equals(gc.component.getName(), "player")) continue;
-                if (Objects.equals(gc.component.getName(), "spike")) continue;
-                if (Objects.equals(gc.component.getName(), "coin")) continue;
-                if (Objects.equals(gc.component.getName(), "portal")) continue;
-                if (Objects.equals(gc.component.getName(), "enemy")) continue;
+                if (Objects.equals(gc.getComponent().getName(), "player")) continue;
+                if (Objects.equals(gc.getComponent().getName(), "spike")) continue;
+                if (Objects.equals(gc.getComponent().getName(), "coin")) continue;
+                if (Objects.equals(gc.getComponent().getName(), "portal")) continue;
+                if (Objects.equals(gc.getComponent().getName(), "enemy")) continue;
                 if (gc.isStandOn(gc2)) {
                     for (int i = gc.getHitBox()[GameObject.LEFT]; i <=
                             gc.getHitBox()[GameObject.RIGHT]; i+=5)
@@ -160,7 +165,7 @@ public class Level {
                 return (Player) gc;
             }
         }
-        throw new RuntimeException("Player not found");
+        throw new RuntimeException("model.gameObjects.Player not found");
     }
     public void fixLevel() {
         boolean playerCheck = false;
@@ -198,7 +203,7 @@ public class Level {
 
     @Override
     public String toString() {
-        return "Level{" +
+        return "model.Level{" +
                 "levelName='" + levelName + '\'' +
                 ", timer=" + timer +
                 ", points=" + points +

@@ -1,3 +1,11 @@
+package model.tests;
+
+import model.Coordinates;
+import model.GameComponent;
+import model.Level;
+import model.gameObjects.GameObject;
+import model.gameObjects.Player;
+
 public class TestLevel {
     public static int successCount = 0;
     public static int failCount = 0;
@@ -77,7 +85,7 @@ public class TestLevel {
         else
             failCount++;
 
-        level.removeGameObject(gameObject3.id);
+        level.removeGameObject(gameObject3.getId());
         level.generateSurface();
         System.out.println("onSurface test3:" +
                 !level.onSurface(gameObject));

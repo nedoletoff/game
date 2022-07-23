@@ -1,3 +1,8 @@
+package model;
+
+import model.gameObjects.GameObject;
+import model.gameObjects.Player;
+
 import java.util.TreeSet;
 
 public class Platformer {

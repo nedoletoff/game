@@ -1,3 +1,8 @@
+package model.gameObjects;
+
+import model.GameComponent;
+import model.Level;
+
 public class Coin extends GameObject{
 
     public Coin(GameComponent component, int horizontalCoordinate, int verticalCoordinate) {

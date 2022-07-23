@@ -1,3 +1,8 @@
+package view;
+
+import model.GameComponent;
+import model.GameComponents;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -49,7 +54,7 @@ public class Redactor {
 
 
 
-        back = new ImageIcon("images/game_image.jpg");
+        back = new ImageIcon("C:\\Users\\nedoletoff\\IdeaProjects\\game\\images/game_image.jpg");
 
 
         hideRadio = new JRadioButton("Hide");
@@ -65,7 +70,7 @@ public class Redactor {
         JDialog res = new JDialog(frame);
         res.setTitle("Add object");
         res.setIconImage(new ImageIcon(
-                "images\\circle.png").getImage());
+                "C:\\Users\\nedoletoff\\IdeaProjects\\game\\images\\circle.png").getImage());
         res.setBounds(Window.WIDTH/2 - 150, Window.HEIGHT/2 - 150, 300, 300);
         res.setName("Add object");
         res.setBackground(Window.background);
@@ -103,7 +108,7 @@ public class Redactor {
         JDialog res = new JDialog(frame);
         res.setTitle("Set object");
         res.setIconImage(new ImageIcon(
-                "images\\circle.png").getImage());
+                "C:\\Users\\nedoletoff\\IdeaProjects\\game\\images\\circle.png").getImage());
         res.setBounds(Window.WIDTH/2 - 150, Window.HEIGHT/2 - 150, 300, 300);
         res.setName("Set Object");
         res.setBackground(Window.background);

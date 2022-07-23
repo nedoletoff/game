@@ -1,3 +1,5 @@
+package model;
+
 import java.io.*;
 import java.util.Objects;
 
@@ -14,7 +16,7 @@ public class GameComponent implements Serializable {
                          int horizontalSize, int verticalSize) {
         num++;
         this.name = name;
-        this.imageName = "images\\" + imageName;
+        this.imageName = "C:\\Users\\nedoletoff\\IdeaProjects\\game\\images\\" + imageName;
         //this.png = new ImageIcon(imageLocation);
         this.horizontalSize = horizontalSize;
         this.verticalSize = verticalSize;
@@ -30,7 +32,7 @@ public class GameComponent implements Serializable {
     }
 
     public GameComponent(String name) {
-        name = "components\\" + name + ".cmp";
+        name = "C:\\Users\\nedoletoff\\IdeaProjects\\game\\components\\" + name + ".cmp";
         try (ObjectInputStream ois = new ObjectInputStream(new
                 FileInputStream(name))) {
             GameComponent g = new GameComponent((GameComponent) ois.readObject());
@@ -44,7 +46,7 @@ public class GameComponent implements Serializable {
     }
 
     public void save() {
-        String fileName = "components\\" + name + ".cmp";
+        String fileName = "C:\\Users\\nedoletoff\\IdeaProjects\\game\\components\\" + name + ".cmp";
         try (ObjectOutputStream oos = new ObjectOutputStream(new
                 FileOutputStream(fileName))) {
             oos.writeObject(this);
@@ -89,7 +91,7 @@ public class GameComponent implements Serializable {
 
     @Override
     public String toString() {
-        return "GameComponent{" +
+        return "model.GameComponent{" +
                 "horizontalSize=" + horizontalSize +
                 ", verticalSize=" + verticalSize +
                 ", name='" + name + '\'' +

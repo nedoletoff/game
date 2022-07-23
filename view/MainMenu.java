@@ -1,3 +1,5 @@
+package view;
+
 import javax.swing.*;
 
 public class MainMenu {
@@ -8,7 +10,7 @@ public class MainMenu {
     public MainMenu() {
         DefaultListModel<String> menuList = new DefaultListModel<>();
         menuList.addElement("Start");
-        menuList.addElement("Choose Level");
+        menuList.addElement("Chose Level");
         menuList.addElement("Level Editor");
         menuList.addElement("Exit");
 
@@ -32,7 +34,7 @@ public class MainMenu {
         gameName.setBounds(Window.WIDTH / 2 - 400,Window.HEIGHT / 2 - 450,
                 800, 200);
 
-        back = new ImageIcon("images/menu_image.jpg");
+        back = new ImageIcon("C:\\Users\\nedoletoff\\IdeaProjects\\game\\images/menu_image.jpg");
     }
 
     public ImageIcon getBack() {

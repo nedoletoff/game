@@ -1,3 +1,8 @@
+package view;
+
+import model.Levels;
+import model.SavedLevel;
+
 import javax.swing.*;
 
 public class LevelMenu {
@@ -22,7 +27,7 @@ public class LevelMenu {
         newButton.setBackground(Window.buttonBackground);
         newButton.setOpaque(false);
 
-        Levels levels = new Levels("levels");
+        Levels levels = new Levels("C:\\Users\\nedoletoff\\IdeaProjects\\game\\levels");
         int index = 0;
         DefaultListModel<String> menuList = new DefaultListModel<>();
         SavedLevel savedLevel;
@@ -55,7 +60,7 @@ public class LevelMenu {
         gameName.setBounds(Window.WIDTH / 2 - 400,Window.HEIGHT / 2 - 450,
                 800, 200);
 
-        back = new ImageIcon("images/game_image.jpg");
+        back = new ImageIcon("C:\\Users\\nedoletoff\\IdeaProjects\\game\\images/game_image.jpg");
     }
     public JButton getBackButton() {
         return  backButton;

@@ -1,4 +1,11 @@
-public class TestGameObject {
+package model.tests;
+
+import model.Coordinates;
+import model.GameComponent;
+import model.gameObjects.GameObject;
+import model.gameObjects.Player;
+
+public class TestPlayer {
     public static int successCount = 0;
     public static int failCount = 0;
     public static void main(String[] args) {
@@ -11,8 +18,7 @@ public class TestGameObject {
                 "images/circle.png", 100, 100);
         GameObject gameObject = new GameObject(component, x, y);
         GameObject gameObject1 = new GameObject(component, x*10, 0);
-        GameObject gameObject2 = new GameObject(component, 0, 0);
-
+        Player gameObject2 = new Player(component, 0, 0);
 
         System.out.println("getCoordinates test:"
                 + coordinates.equals(gameObject.getCoordinates()));
@@ -50,6 +56,12 @@ public class TestGameObject {
             successCount++;
         else failCount++;
 
+        System.out.println("isInHitBox test5:" +
+                !gameObject.isInHitBox(gameObject2));
+        if (!gameObject.isInHitBox(gameObject2))
+            successCount++;
+        else failCount++;
+
         System.out.println("isNearHitBox test1:" +
                 gameObject.isNearHitBox(gameObject2));
         if (gameObject.isNearHitBox(gameObject2))
@@ -68,8 +80,8 @@ public class TestGameObject {
             successCount++;
         else failCount++;
 
-       System.out.println("whereIsObject test1:" +
-               (gameObject.whereIsObject(gameObject2) == GameObject.UP));
+        System.out.println("whereIsObject test1:" +
+                (gameObject.whereIsObject(gameObject2) == GameObject.UP));
         if (gameObject.whereIsObject(gameObject2) == GameObject.UP)
             successCount++;
         else failCount++;

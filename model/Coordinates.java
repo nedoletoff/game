@@ -1,3 +1,5 @@
+package model;
+
 import java.awt.*;
 import java.util.Objects;
 
@@ -56,7 +58,7 @@ public class Coordinates {
 
     @Override
     public String toString() {
-        return "Coordinates{" +
+        return "model.Coordinates{" +
                 "x=" + x +
                 ", y=" + y +
                 '}';

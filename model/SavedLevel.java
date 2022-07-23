@@ -1,3 +1,7 @@
+package model;
+
+import model.gameObjects.GameObject;
+
 import java.io.*;
 import java.util.TreeMap;
 
@@ -20,7 +24,8 @@ public class SavedLevel implements Serializable {
     }
 
     public static SavedLevel load(String levelName) {
-        levelName = "levels\\" + levelName + ".lvl";
+        levelName = "C:\\Users\\nedoletoff\\IdeaProjects\\game\\levels\\" + levelName + ".lvl";
+        System.out.println(levelName);
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(levelName))) {
             return (SavedLevel) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
@@ -28,7 +33,7 @@ public class SavedLevel implements Serializable {
         }
     }
     public void save(String levelName) {
-        levelName = "levels\\" + levelName + ".lvl";
+        levelName = "C:\\Users\\nedoletoff\\IdeaProjects\\game\\levels\\" + levelName + ".lvl";
         try(ObjectOutputStream oos = new ObjectOutputStream(new
                 FileOutputStream(levelName))) {
             oos.writeObject(this);
@@ -39,7 +44,7 @@ public class SavedLevel implements Serializable {
 
     @Override
     public String toString() {
-        return "SavedLevel{" +
+        return "model.SavedLevel{" +
                 "bestTime=" + bestTime +
                 ", bestPoints=" + bestPoints +
                 ", gameObjects=" + gameObjects +

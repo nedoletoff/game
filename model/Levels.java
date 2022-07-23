@@ -1,3 +1,5 @@
+package model;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -35,6 +37,7 @@ public class Levels {
         for (String name : filesName) {
             res.add(name.split("\\.")[0]);
         }
+        System.out.println(res);
         return res;
     }
 

@@ -1,3 +1,9 @@
+package model.gameObjects;
+
+import model.Coordinates;
+import model.GameComponent;
+import model.Level;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
@@ -272,7 +278,7 @@ public class GameObject implements Serializable {
         fall(level);
         if (hitPoints <= 0) {
             die(level);
-            level.gameObjects.remove(id);
+            level.getGameObjects().remove(id);
         }
     }
 
@@ -315,7 +321,7 @@ public class GameObject implements Serializable {
 
     @Override
     public String toString() {
-        return "GameObject{" +
+        return "model.gameObjects.GameObject{" +
                 "id=" + id +
                 ", component=" + component +
                 ", horizontalCoordinate=" + horizontalCoordinate +

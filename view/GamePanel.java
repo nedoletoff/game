@@ -1,3 +1,11 @@
+package view;
+
+import model.Coordinates;
+import model.GameComponent;
+import model.Level;
+import model.Platformer;
+import model.gameObjects.GameObject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -37,7 +45,7 @@ public class GamePanel extends JPanel implements ActionListener {
         timerPlatformer = new Timer(40, e -> {
             platformer.update(gameMenu.getTimer());
             repaintLevel();
-            gameMenu.setScore(platformer.currentLevel.points);
+            gameMenu.setScore(platformer.currentLevel.getPoints());
             if (platformer.currentLevel.endLevel) {
                 platformer.currentLevel.save();
                 timerPlatformer.stop();
@@ -70,7 +78,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void repaintLevel() {
-        if (count++ == 50) {
+        if (count++ == 30) {
             eraseAll();
             count = 0;
         }
@@ -81,7 +89,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void paintObject(GameObject gameObject) {
-        ImageIcon icon = new ImageIcon(gameObject.getComponent().imageName);
+        ImageIcon icon = new ImageIcon(gameObject.getComponent().getImageName());
         JLabel label = new JLabel(icon);
         Coordinates coordinate = gameObject.getCoordinates();
         GameComponent gameComponent = gameObject.getComponent();

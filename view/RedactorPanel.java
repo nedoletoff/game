@@ -1,3 +1,12 @@
+package view;
+
+import model.Coordinates;
+import model.GameComponent;
+import model.GameComponents;
+import model.Level;
+import model.gameObjects.Spring;
+import model.gameObjects.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -134,7 +143,7 @@ public class RedactorPanel extends JPanel implements ActionListener {
     }
 
     private void paintObject(GameObject gameObject) {
-        ImageIcon icon = new ImageIcon(gameObject.getComponent().imageName);
+        ImageIcon icon = new ImageIcon(gameObject.getComponent().getImageName());
         JLabel label = new JLabel(icon);
         Coordinates coordinate = gameObject.getCoordinates();
         GameComponent gameComponent = gameObject.getComponent();
